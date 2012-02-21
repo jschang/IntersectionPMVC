@@ -30,8 +30,8 @@ class Model_IoCContainerTest extends PHPUnit_Framework_TestCase {
 		JVS::loadClass('Model_IoCContainer');
 		JVS::loadClass('Resource_File');
 		$this->ioc = new Model_IoCContainer( new Resource_File((string)"IoCContainerTest.xml") );
+	}
 	public function testProperties() {
-		print_r($this);
 		$tac = $this->ioc->getObject('testSetProperties');
 	}
 	public function testDoesNotExist() {

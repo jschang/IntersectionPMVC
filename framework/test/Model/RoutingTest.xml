@@ -16,7 +16,7 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<routing namespace="Model_XmlUnmarshaller_Routing">
+<routing xmlns="urn:Model_NodeUnmarshaller_Routing">
 	<path regex="/test/regex/(.*)" backing="Model_RoutingTest_Controller">
 		<property name="page" value="portlet-page://product-page"/>
 	</path>

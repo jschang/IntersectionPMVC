@@ -19,9 +19,14 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 class Exception_NotFound extends Exception {
-	public function __construct($url, $code=0, $previous=null) {
+	private $uri=null;
+	public function __construct($uri, $code=0, $previous=null) {
 		$this->message = 'The resource at uri '.$uri.' was not found.';
+		$this->uri = $uri;
 		$this->code = $code;
+	}
+	public function getURI() {
+		return $this->uri;
 	}
 }
 

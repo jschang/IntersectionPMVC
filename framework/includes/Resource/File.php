@@ -23,7 +23,7 @@ JVS::loadClass('Resource_Content');
 class Resource_File implements Resource_Content {
 	public $uri = null;
 	public function __construct($fullPath="") {
-		$this->fullPath = $fullPath;
+		$this->uri = $fullPath;
 	}
 	public function getURI() {
 		return $this->uri;
@@ -32,7 +32,7 @@ class Resource_File implements Resource_Content {
 		$this->uri = $uri;
 	}
 	public function getContent() {
-		return file_get_contents($this->fullPath);
+		return file_get_contents($this->uri);
 	}
 	public function setContent($content) {
 	}

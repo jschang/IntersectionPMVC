@@ -58,11 +58,16 @@ class Model_NodeUnmarshaller_Routing implements Model_NodeUnmarshaller {
 	
 	public function parsePath(DOMNode $node) {
 		$ref = $node->getAttribute('ref');
-		if( !empty($ref) && !empty($this->ioc) )
+		
+		if( !empty($ref) && !empty($this->ioc) ) {
 			return $this->iocParser->parseObject($node,$this->ioc->getObject($ref));
+		}
+		
 		$backing = $node->getAttribute('backing');
-		if( !empty($backing) )
+		if( !empty($backing) ) {
 			$node->setAttribute('class',$backing);
+		}
+		
 		return $this->iocParser->parseObject($node);
 	}
 }

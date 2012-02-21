@@ -34,11 +34,11 @@ class Model_RoutingTest extends PHPUnit_Framework_TestCase {
 	public function testRouting() {
 		$controller = $this->routing->getController('/test/regex/some-more-stuff/on/the-url/');
 		$this->assertTrue($controller instanceof Model_RoutingTest_Controller);
-		$this->assertTrue($controller->getPage() == 'product-page');
+		$this->assertTrue($controller->getPage() == 'portlet-page://product-page');
 		
 		$controller = $this->routing->getController('/index.html');
 		$this->assertTrue($controller instanceof Model_RoutingTest_Controller);
-		$this->assertTrue($controller->getPage() == 'homepage');
+		$this->assertTrue($controller->getPage() == 'portlet-page://homepage');
 	}
 }
 

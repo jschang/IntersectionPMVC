@@ -21,6 +21,7 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 JVS::loadClass('Resource_File');
 JVS::loadClass('Model_IoCContainer');
 JVS::loadClass('Model_NodeUnmarshaller_Routing');
+JVS::loadClass('Exception_NotFound');
 
 class Model_Routing {
 		
@@ -35,23 +36,27 @@ class Model_Routing {
 		
 	public function __construct(Resource_Content $resource) {
 		$this->xmlSource = $resource;
-		$this->parser = new Model_NodeUnmarshaller_Routing();
+		$this->routerParser = new Model_NodeUnmarshaller_Routing();
 	}
 	
 	public function getController($uri) {
-		if( empty($this->pathing) )
+		if( empty($this->pathing) ) {
 			$this->parseSource();
+		}
 			
-		if( !empty($this->ioc) )
-			$this->parser->setIoCContainer($this->ioc);
+		if( !empty($this->ioc) ) {
+			$this->routerParser->setIoCContainer($this->ioc);
+		}
 
 		foreach( $this->pathing as $regex=>$pathNode )
 			if( preg_match('/'.$regex.'/',$uri) ) {
-				$controller = $this->parser->parseNode($pathNode);
-				if( !empty($this->controllerResourceSelector) && !$controller->getResourceSelector() )
+				$controller = $this->routerParser->parseNode($pathNode);
+				if( !empty($this->controllerResourceSelector) && !$controller->getResourceSelector() ) {
 					$controller->setResourceSelector($this->controllerResourceSelector);
-				if( !empty($this->controllerIoCContainer) && !$controller->getIoCContainer() )
+				}
+				if( !empty($this->controllerIoCContainer) && !$controller->getIoCContainer() ) {
 					$controller->setIoCContainer($this->controllerIoCContainer);
+				}
 				return $controller;
 			}
 		return null;
@@ -60,32 +65,43 @@ class Model_Routing {
 	private function parseSource() {
 		$doc = new DOMDocument();
 		$doc->loadXml($this->xmlSource->getContent());
+		$doc->lookupNamespaceUri($this->routerParser->getNamespace());
 		$xpath = new DOMXPath($doc);
-		$xpath->registerNamespace('r',$this->parser->getNamespace());
+		$xpath->registerNamespace('r',$this->routerParser->getNamespace());
 		
-		$routing = $xpath->query('//r:routing');
+		$routingXpath = '//r:routing';
+		$pathXpath = '//r:routing/r:path';
+		
+		$routing = $xpath->query($routingXpath);
+		if( $routing->length==0 ) {
+			throw new Exception_NotFound($this->xmlSource->getURI().$routingXpath);
+		}
 		$this->parseIocContainer( $routing->item(0)->getAttribute('ioc-container') );
-		$this->parseResourceSelector( $routing->item(0)->getAttribute('resource-selector') );
+		$this->routerParseresourceSelector( $routing->item(0)->getAttribute('resource-selector') );
 		
-		$paths = $xpath->query('//r:routing/r:path');
-		foreach( $paths as $pathNode )
-			$this->pathing[str_replace('/','\/',$pathNode->getAttribute('regex'))] = $pathNode;
+		$paths = $xpath->query($pathXpath);
+		foreach( $paths as $pathNode ) {
+			$pathRegex = $pathNode->getAttribute('regex');
+			$this->pathing[str_replace('/','\/',$pathRegex)] = $pathNode;
+		}
 	}
 	
 	private function parseIoCContainer($uri) {
-		if( !empty($this->ioc) && ( $uri=="application" || empty($uri) ) )
+		if( !empty($this->ioc) && ( $uri=="application" || empty($uri) ) ) {
 			$this->controllerIoCContainer = $this->ioc;
-		elseif( !empty($this->ioc) && ! empty($uri) )
+		} elseif( !empty($this->ioc) && ! empty($uri) ) {
 			$this->controllerIoCContainer = new Model_IoCContainer( $this->ioc->getObject('resource-selector')->getResource($uri) );
+		}
 	}
 	
-	private function parseResourceSelector($uri) {
+	private function routerParseresourceSelector($uri) {
 		if( !empty($uri) ) {
 			$parts = explode(':',$uri);
-			if( $parts[0] == 'ioc' )
+			if( $parts[0] == 'ioc' ) {
 				$this->controllerResourceSelector = $this->controllerIoc->getObject($parts[1]);
-			elseif( !empty($this->ioc) )
+			} elseif( !empty($this->ioc) ) {
 				$this->controllerResourceSelector = $this->ioc->getObject($parts[0]);
+			}
 		}
 	}
 }

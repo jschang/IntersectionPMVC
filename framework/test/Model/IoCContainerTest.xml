@@ -40,7 +40,7 @@ property
 	@class - parse the node content as an object
 	@value - a scalar type value
 -->
-<objects namespace="Model_NodeUnmarshaller_IoCContainer">
+<objects xmlns="urn:Model_NodeUnmarshaller_IoCContainer">
 	<object id="singleton" scope="singleton" class="Model_IoCContainerTest_TestObject"/>
 	<object id="factorySingleton" scope="singleton" class="Model_IoCContainerTest_TestObject" factory-method="staticFactoryMethod"/>
 	<object id="testArrayConstructor" class="Model_IoCContainerTest_TestObject">
@@ -63,4 +63,5 @@ property
 		<property method="setProperty2" ref="factorySingleton"/>
 	</object>
 </objects>
+
 
