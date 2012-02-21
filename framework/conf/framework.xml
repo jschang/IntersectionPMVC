@@ -1,0 +1,62 @@
+<!--
+Copyright (C) 2012 Jon Schang
+
+This file is part of IntersectionPMVC, released under the LGPLv3
+
+IntersectionPMVC is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+IntersectionPMVC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<objects xmlns="urn:Model_NodeUnmarshaller_IoCContainer">
+	<object scope="singleton" id='http-response' class='Response'/>
+	<object scope="singleton" id='http-request' class='Request'>
+		<constructor-arguments>
+			<param value="$_SERVER"/>
+			<param value="$_GET"/>
+			<param value="$_POST"/>
+		</constructor-arguments>
+	</object>
+	<object id='http-router' scope="singleton" class='Router'>
+		<property name="routingModel" ref="routing-model"/>
+	</object>
+	
+	<object id="routing-model" scope="singleton" class="Model_Routing">
+		<constructor-arguments>
+			<param factory-ref="resource-selector" factory-method="getResource">
+				<constructor-arguments>
+					<param value="site-root://conf/routing.xml"/>
+				</constructor-arguments>
+			</param>
+		</constructor-arguments>
+		<property name="ioCContainer" ref="this"/>
+	</object>
+	
+	<object id="resource-selector-file" scope="singleton" class="Resource_Selector_File"/>
+	<object id="resource-selector-portlet" scope="singleton" class="Resource_Selector_Portlet"/>
+	<object id="resource-selector-portlet-page" scope="singleton" class="Resource_Selector_PortletPage">
+		<property name="portletPageModel" ref="portlet-page-model"/>
+	</object>
+	<object id='resource-selector' scope='singleton' class='Resource_Selector'>
+		<property name='protocolHandlers'>
+			<value ref="resource-selector-file"/>
+			<value ref="resource-selector-portlet"/>
+			<value ref="resource-selector-portlet-page"/>
+		</property>
+	</object>
+	
+	<object id="portlet-page-model" scope="singleton" class="Model_PortletPage">
+		<property name="ioCContainer" ref="this"/>
+		<property name="resourceSelector" ref="resource-selector"/>
+	</object>
+	<object id="portlet-page-controller" scope="prototype" class="Controller_PortletPage"/>
+	
+</objects>

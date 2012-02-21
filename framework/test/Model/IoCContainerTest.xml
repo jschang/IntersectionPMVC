@@ -1,0 +1,66 @@
+<!--
+Copyright (C) 2012 Jon Schang
+
+This file is part of IntersectionPMVC, released under the LGPLv3
+
+IntersectionPMVC is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+IntersectionPMVC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!--
+param 
+	@value
+	@ref
+	@class
+object
+	@id
+	@scope singleton|prototype
+	@factory-ref - an existing object that the factory method is in
+	@factory-method - a static method 'Class::method' or just 'method'
+	- constructor-arguments - order is significant
+		- param
+	- property
+param 
+	@ref - denotes another object
+	@class - denotes that the node content should be parsed as an object
+	@value - a scalar type value
+property
+	@name - name of the setter method
+	@method - full name of the setter method
+	@ref - lookup the id of the ref and inject that object as the property
+	@class - parse the node content as an object
+	@value - a scalar type value
+-->
+<objects namespace="Model_NodeUnmarshaller_IoCContainer">
+	<object id="singleton" scope="singleton" class="Model_IoCContainerTest_TestObject"/>
+	<object id="factorySingleton" scope="singleton" class="Model_IoCContainerTest_TestObject" factory-method="staticFactoryMethod"/>
+	<object id="testArrayConstructor" class="Model_IoCContainerTest_TestObject">
+		<constructor-arguments>
+			<param>
+				<value key="test" class="Model_IoCContainerTest_TestObject">
+					<constructor-arguments>
+						<param value="argument 1"/>
+						<param value="argument 2"/>
+					</constructor-arguments>
+				</value>
+				<value key="test2" value="none"/>
+				<value ref="singleton"/>
+			</param>
+			<param value="someValue"/>
+		</constructor-arguments>
+	</object>
+	<object id="testSetProperties" class="Model_IoCContainerTest_TestObject">
+		<property name="property1" value="property 1"/>
+		<property method="setProperty2" ref="factorySingleton"/>
+	</object>
+</objects>
+

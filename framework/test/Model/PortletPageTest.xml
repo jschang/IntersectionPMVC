@@ -1,0 +1,47 @@
+<!--
+Copyright (C) 2012 Jon Schang
+
+This file is part of IntersectionPMVC, released under the LGPLv3
+
+IntersectionPMVC is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+IntersectionPMVC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!--
+portlet-page
+	- cell
+	- row
+row
+cell 
+	@width
+	- rules | portlet | content-selector
+rules
+	@handler
+portlet
+	@id
+	@backing
+	@resource
+content-selector
+	@handler
+-->
+<portlet-page>
+	<cell width="16">
+		<portlet id="header" backing="Portlet_TemplatedContent">
+			<property name="resource" value="vcr://content/header/header.templ"/>
+		</portlet>
+	</cell>
+	<cell width="16">
+		<portlet id="footer" backing="Portlet_TemplatedContent">
+			<property name="resource" value="vcr://content/footer/footer.templ"/>
+		</portlet>
+	</cell>
+</portlet-page>

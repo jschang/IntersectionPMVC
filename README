@@ -1,0 +1,5 @@
+IntersectionPMVC by Jon Schang
+Copyright (C) 2012
+
+IntersectionPMVC is a PHP 5 framework inspired by Java's Portal, 
+Springframework's Inversion of Control container, and Java's VCR.

@@ -1,0 +1,46 @@
+/*
+Copyright (C) 2012 Jon Schang
+
+This file is part of IntersectionPMVC, released under the LGPLv3
+
+IntersectionPMVC is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+IntersectionPMVC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+.grid       { width: 972px; }
+
+.cell-1     { width: 50px; }
+.cell-2     { width: 110px; }
+.cell-3     { width: 170px; }
+.cell-4     { width: 230px; }
+.cell-5     { width: 290px; }
+.cell-6     { width: 350px; }
+.cell-7     { width: 410px; }
+.cell-8     { width: 470px; }
+.cell-9     { width: 530px; }
+.cell-10    { width: 590px; }
+.cell-11    { width: 650px; }
+.cell-12    { width: 710px; }
+
+.st         { margin-left:0; }
+.nd         { margin-right:0; }
+
+div.col       { float:left; }
+div.col > div { clear:both; }
+div.row       { float:left; }
+div.row > div { float:left; }
+
+div.cell-1, div.cell-2, div.cell-3, div.cell-4,
+div.cell-5, div.cell-6, div.cell-7, div.cell-8, 
+div.cell-9, div.cell-10, div.cell-11, div.cell-12  
+{ border: 1px solid black; margin: 5 5 5 5; }
