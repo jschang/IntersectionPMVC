@@ -18,10 +18,32 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+JVS::loadClass('Model_Portlet');
+
 class Resource_Selector_Portlet implements Resource_Selector_Interface {
+
+	private $portletModel = null;
+	private $selector = null;
+
 	public function getProtocols() {
 		return array('portlet');
 	}
+	
+	public function setPortletModel(Model_Portlet $portletModel) {
+		$this->portletModel = $portletModel;
+	}
+	public function getPortletModel() {
+		return $this->portletModel;
+	}
+	
 	public function getResource($uri) {
+		preg_match('/([^:]*):\/\/(.*)/',$uri,$match);
+		switch($match[1])
+		{
+			case 'portlet':
+				return $this->portletModel->getPortlet('site-root://portlets/'.$match[2]);
+				break;
+		}
+		return null;
 	}
 }

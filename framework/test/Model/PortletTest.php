@@ -23,29 +23,29 @@ include_once('PHPUnit/Framework.php');
 include_once('PHPUnit/TextUI/TestRunner.php');
 
 include_once(dirname(__FILE__).'/../../includes/Redesign.php');
-JVS::loadClass('Model_PortletPage');
+JVS::loadClass('Model_Portlet');
 
-class Model_PortletPageTest extends PHPUnit_Framework_TestCase {
+class Model_PortletTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		JVS::loadClass('Model_IoCContainer');
 		JVS::loadClass('Resource_Selector');
 		JVS::loadClass('Resource_Selector_File');
 		JVS::loadClass('Resource_File');
 		
-		$this->portletPageModel = new Model_PortletPage();
+		$this->portletModel = new Model_Portlet();
 		
 		$this->selector = new Resource_Selector();
 		$this->selector->setProtocolHandlers(array(
 			'file'=>new Resource_Selector_File()
 		));
 		
-		$this->ioc = new Model_IoCContainer( $this->selector->getResource("file://./PortletPageTest_IoC.xml") );
+		$this->ioc = new Model_IoCContainer( $this->selector->getResource("file://./PortletTest_IoC.xml") );
 		
-		$this->portletPageModel->setResourceSelector($this->selector);
-		$this->portletPageModel->setIoCContainer($this->ioc);
+		$this->portletModel->setResourceSelector($this->selector);
+		$this->portletModel->setIoCContainer($this->ioc);
 	}
 	public function testLoadPage() {
-		$this->portletPageModel()->
+		$this->portletModel->getPortlet( "file://./PortletTest.xml" );
 		$this->assertTrue(true);
 	}
 }

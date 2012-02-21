@@ -20,15 +20,19 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 
 class Resource_Selector_PortletPage implements Resource_Selector_Interface {
 	private $pageModel = null;
+	private $selector = null;
+	
 	public function getProtocols() {
 		return array('portlet-page');
 	}
+	
 	public function setPortletPageModel(Model_PortletPage $pageModel) {
 		$this->pageModel = $pageModel;
 	}
 	public function getPortletPageModel() {
 		return $this->pageModel;
 	}
+	
 	public function getResource($uri) {
 		preg_match('/([^:]*):\/\/(.*)/',$uri,$match);
 		switch($match[1])

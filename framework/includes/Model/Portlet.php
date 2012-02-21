@@ -20,21 +20,46 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 
 JVS::loadClass('Resource_Selector');
 JVS::loadClass('Model_IoCContainer');
+JVS::loadClass('Exception_NotFound');
+JVS::loadClass('Model_NodeUnmarshaller_Portlet');
 
 class Model_Portlet {
 	private $ioc = null;
 	private $resourceSelector = null;
 	
-	public function setIoC(Model_IoCContainer $ioc) {
+	public function setIoCContainer(Model_IoCContainer $ioc) {
 		$this->ioc = $ioc; 
 	}
-	public function getIoC() {
+	public function getIoCContainer() {
 		return $this->ioc;
 	}
+	
 	public function setResourceSelector(Resource_Selector $selector) {
 		$this->resourceSelector = $selector;
 	}	
 	public function getResourceSelector() {
 		return $this->resourceSelector;
+	}
+	
+	public function getPortlet($uri) {
+	
+		$nodeParser = new Model_NodeUnmarshaller_Portlet();
+		$nodeParser->setIoCContainer($this->ioc);
+	
+		$xmlSource = $this->resourceSelector->getResource($uri)->getContent();
+		$portletXml = new DOMDocument();
+		$portletXml->loadXml($xmlSource);
+		$portletXml->lookupNamespaceUri($nodeParser->getNamespace());
+		
+		$xpath = new DOMXPath($portletXml);
+		$xpath->registerNamespace('r',$nodeParser->getNamespace());
+		
+		$portletXpath = "//r:portlet";
+		$portletNodes = $xpath->query($portletXpath);
+		if( $portletNodes->length != 1 ) {
+			throw new Exception("Expecting a single portlet node in the resource ".$uri);
+		}
+				
+		return $nodeParser->parseNode($portletNodes->item(0));
 	}
 }

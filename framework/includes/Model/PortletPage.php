@@ -30,13 +30,16 @@ class Model_PortletPage {
 	public function getIoCContainer() {
 		return $this->iocContainer;
 	}
+	
 	public function setResourceSelector(Resource_Selector $selector) {
 		$this->resourceSelector = $selector;
 	}	
 	public function getResourceSelector() {
 		return $this->resourceSelector;
 	}
+	
 	public function getPortletPage($uri) {
-		$page = $this->resourceSelector();
+		$page = $this->resourceSelector->getResource($uri);
+		$page->getContent();
 	}
 }

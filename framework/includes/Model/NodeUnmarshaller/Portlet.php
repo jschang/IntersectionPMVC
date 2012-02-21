@@ -19,25 +19,10 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 JVS::loadClass('Model_NodeUnmarshaller_IoCContainer');
-JVS::loadClass('Model_NodeUnmarshaller');
 
-class Model_NodeUnmarshaller_Routing implements Model_NodeUnmarshaller {
-
+class Model_NodeUnmarshaller_Portlet implements Model_NodeUnmarshaller {
+	private $xmlNs = 'urn:Model_NodeUnmarshaller_Portlet';
 	private $ioc = null;
-	private $iocParser = null;
-	private $xmlNs = 'urn:Model_NodeUnmarshaller_Routing';
-		
-	public function __construct() {
-		$this->iocParser = new Model_NodeUnmarshaller_IoCContainer();
-		$this->iocParser->setNamespace($this->getNamespace());
-	}
-		
-	public function setIoCContainer(Model_IoCContainer $ioc) {
-		$this->ioc = $ioc;	
-	}
-	public function getIoCContainer() {
-		return $this->ioc;
-	}
 	
 	public function getNamespace() {
 		return $this->xmlNs;
@@ -46,18 +31,19 @@ class Model_NodeUnmarshaller_Routing implements Model_NodeUnmarshaller {
 		$this->xmlNs = $ns;
 	}
 	
-	public function parseNode(DOMNode $node,$nodeName=null) {
-		if( empty($nodeName) )
-			$nodeName = $node->nodeName;
-		if( !empty($this->ioc) )
-			$this->iocParser->setIoCContainer($this->ioc);
-		switch($nodeName) {
-			case 'path': return $this->parsePath($node); break;
-		}
+	public function setIoCContainer(Model_IoCContainer $ioc) {
+		$this->ioc = $ioc;	
+	}
+	public function getIoCContainer() {
+		return $this->ioc;
 	}
 	
-	public function parsePath(DOMNode $node) {
+	public function parseNode(DOMNode $node, $nodeName=null) {
 	
+		if( empty($nodeName) ) {
+			$nodeName = $node->nodeName;
+		}
+		
 		$ref = $node->getAttribute('ref');
 		if( !empty($ref) && !empty($this->ioc) ) {
 			return $this->iocParser->parseObject($node,$this->ioc->getObject($ref));
@@ -68,6 +54,11 @@ class Model_NodeUnmarshaller_Routing implements Model_NodeUnmarshaller {
 			$node->setAttribute('class',$backing);
 		}
 		
-		return $this->iocParser->parseObject($node);
+		$iocParser = new Model_NodeUnmarshaller_IoCContainer();
+		if( !empty($this->ioc) ) {
+			$iocParser->setIoCContainer($this->ioc);
+		}
+		$iocParser->setNamespace($this->xmlNs);
+		return $iocParser->parseNode($node,'object');
 	}
 }
