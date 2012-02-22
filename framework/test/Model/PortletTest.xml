@@ -16,6 +16,7 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<portlet xmlns="urn:Model_NodeUnmarshaller_Portlets" backing="Portlet_TemplatedContent">
-	<property name="resourceUri" value="vcr://footer.templ"/>
+<portlet xmlns="urn:Model_NodeUnmarshaller_Portlet" backing="Model_PortletTest_Backing">
+	<property name="property1" value="test_value"/>
+	<property name="context" ref="this"/>
 </portlet>

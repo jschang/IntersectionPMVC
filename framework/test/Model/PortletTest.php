@@ -45,7 +45,25 @@ class Model_PortletTest extends PHPUnit_Framework_TestCase {
 		$this->portletModel->setIoCContainer($this->ioc);
 	}
 	public function testLoadPage() {
-		$this->portletModel->getPortlet( "file://./PortletTest.xml" );
-		$this->assertTrue(true);
+		$portlet = $this->portletModel->getPortlet( "file://./PortletTest.xml" );
+		$this->assertTrue($portlet instanceof Portlet);
+		$this->assertTrue($portlet->property1=='test_value');
+		$this->assertTrue($portlet->ioc instanceof Model_IoCContainer);
 	}
 }
+
+JVS::loadClass('AbstractPortlet');
+class Model_PortletTest_Backing extends AbstractPortlet {
+	public $property1 = null;
+	public $ioc = null;
+	public function setProperty1($var) {
+		$this->property1 = $var;
+	}
+	public function setContext($context) {
+		$this->ioc = $context;
+	}
+	public function process(Portlet_Request $request, Portlet_Response $response) {
+	}
+	public function render(Portlet_Request $request, Portlet_Response $response) {
+	}
+} 

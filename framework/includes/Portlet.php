@@ -18,44 +18,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-abstract class Portlet implements Resource {
-	private $ioc = null;
-	private $resourceSelector = null;
-	private $portletResourceUri = null;
-	
-	/**
-	 * Defines what properties may be set via the admin interface
-	 */
-	private $properties = array();
-	
-	abstract public function process(Portlet_Request $request, Portlet_Response $response);
-	abstract public function render(Portlet_Request $request, Portlet_Response $response);
-	
-	public function setProperties($properties) {
-		$this->properties = $properties;
-	}
-	public function getProperties() {
-		return $this->properties;
-	}
-	
-	public function setIoC(Model_IoCContainer $ioc) {
-		$this->ioc = $ioc; 
-	}
-	public function getIoC() {
-		return $this->ioc;
-	}
-	
-	public function setResourceSelector($selector) {
-		$this->resourceSelector = $selector;
-	}	
-	public function getResourceSelector() {
-		return $this->resourceSelector;
-	}
-	
-	public function getURI() {
-		return $this->portletResourceUri;
-	}
-	public function setURI($uri) {
-		$this->portletResourceUri = $uri;
-	}
+JVS::loadClass('Portlet_Request');
+JVS::loadClass('Portlet_Response');
+
+interface Portlet extends Resource {
+	function process(Portlet_Request $request, Portlet_Response $response);
+	function render(Portlet_Request $request, Portlet_Response $response);
 }

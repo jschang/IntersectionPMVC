@@ -18,6 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+JVS::loadClass('Resource');
 JVS::loadClass('Resource_Selector');
 JVS::loadClass('Model_IoCContainer');
 JVS::loadClass('Exception_NotFound');
@@ -60,6 +61,12 @@ class Model_Portlet {
 			throw new Exception("Expecting a single portlet node in the resource ".$uri);
 		}
 				
-		return $nodeParser->parseNode($portletNodes->item(0));
+		$portlet = $nodeParser->parseNode($portletNodes->item(0));
+		
+		if( ! $portlet instanceof Portlet ) {
+			throw new Exception_InvalidType(0,"Portlet",get_class($portlet));
+		}
+		
+		return $portlet;
 	}
 }

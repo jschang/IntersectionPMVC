@@ -18,15 +18,21 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Exception_InvalidType extends Exception {
+JVS::loadClass('Portlet');
+JVS::loadClass('Portlet_Request');
+JVS::loadClass('Portlet_Response');
 
-	public function __construct($parameterPosition, $typeExpected, $valuePassedIn, $code=0, $previous=null) {
-		
-		$typePassedIn = is_object($valuePassedIn) ? get_class($valuePassedIn) : gettype($valuePassedIn);
-		
-		$this->message = 'Parameter '.$parameterPosition
-				.' was of type '.$typePassedIn
-				.', where a type '.$typeExpected.' was expected';
-		$this->code = $code;
+abstract class AbstractPortlet implements Portlet {
+
+	private $portletResourceUri = null;
+	
+	abstract public function process(Portlet_Request $request, Portlet_Response $response);
+	abstract public function render(Portlet_Request $request, Portlet_Response $response);
+	
+	public function getURI() {
+		return $this->portletResourceUri;
+	}
+	public function setURI($uri) {
+		$this->portletResourceUri = $uri;
 	}
 }
