@@ -64,7 +64,7 @@ class Model_Portlet {
 		$portlet = $nodeParser->parseNode($portletNodes->item(0));
 		
 		if( ! $portlet instanceof Portlet ) {
-			throw new Exception_InvalidType(0,"Portlet",get_class($portlet));
+			throw new Exception_InvalidClass("Portlet",$portlet);
 		}
 		
 		return $portlet;

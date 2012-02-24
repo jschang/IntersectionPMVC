@@ -45,7 +45,7 @@ class Model_PortletPageTest extends PHPUnit_Framework_TestCase {
 		$this->portletPageModel->setIoCContainer($this->ioc);
 	}
 	public function testLoadPage() {
-		$this->portletPageModel()->
+		$this->portletPageModel->getPortletPage("file://./PortletPageTest.xml");
 		$this->assertTrue(true);
 	}
 }

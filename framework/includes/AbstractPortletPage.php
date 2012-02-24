@@ -1,4 +1,5 @@
-<!--
+<?php
+/*
 Copyright (C) 2012 Jon Schang
 
 This file is part of IntersectionPMVC, released under the LGPLv3
@@ -15,37 +16,7 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
--->
-<!--
-portlet-page
-	- cell
-	- row
-row
-cell 
-	@width
-	- rules | portlet | content-selector
-rules
-	@handler
-portlet
-	@id
-	@backing
-	@resource
-content-selector
-	@handler
--->
-<portlet-page xmlns="urn:Model_NodeUnmarshaller_PortletPage">
-	<column width="8">
-		<row>
-			<cell width="4"/>
-			<cell width="4"/>
-		</row>
-		<row>
-			<cell width="2"/>
-			<cell width="6"/>
-		</row>
-	</column>
-	<column width="4">
-		<cell/>
-		<cell/>
-	</column>
-</portlet-page>
+*/
+
+class AbstractPortletPage implements PortletPage {
+}

@@ -19,6 +19,8 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 JVS::loadClass('Resource_File');
+JVS::loadClass('Exception_InvalidClass');
+JVS::loadClass('Model_NodeUnmarshaller_PortletPage');
 
 class Model_PortletPage {
 	private $iocContainer = null;
@@ -39,7 +41,29 @@ class Model_PortletPage {
 	}
 	
 	public function getPortletPage($uri) {
-		$page = $this->resourceSelector->getResource($uri);
-		$page->getContent();
+		$nodeParser = new Model_NodeUnmarshaller_PortletPage();
+		$nodeParser->setIoCContainer($this->iocContainer);
+	
+		$xmlSource = $this->resourceSelector->getResource($uri)->getContent();
+		$pageXml = new DOMDocument();
+		$pageXml->loadXml($xmlSource);
+		$pageXml->lookupNamespaceUri($nodeParser->getNamespace());
+		
+		$xpath = new DOMXPath($pageXml);
+		$xpath->registerNamespace('r',$nodeParser->getNamespace());
+		
+		$pageXpath = "//r:portlet-page";
+		$portletPageNodes = $xpath->query($pageXpath);
+		if( $portletPageNodes->length != 1 ) {
+			throw new Exception("Expecting a single portlet node in the resource ".$uri);
+		}
+				
+		$portlet = $nodeParser->parseNode($portletPageNodes->item(0));
+		
+		if( ! $portlet instanceof PortletPage ) {
+			throw new Exception_InvalidClass("PortletPage",$portlet);
+		}
+		
+		return $portlet;
 	}
 }

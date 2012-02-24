@@ -24,7 +24,8 @@ class Resource_Selector_Portlet implements Resource_Selector_Interface {
 
 	private $portletModel = null;
 	private $selector = null;
-
+	private $portletsRootPath = 'site-root://portlets';
+	
 	public function getProtocols() {
 		return array('portlet');
 	}
@@ -36,12 +37,19 @@ class Resource_Selector_Portlet implements Resource_Selector_Interface {
 		return $this->portletModel;
 	}
 	
+	public function setPortletsRootPath($path) {
+		$this->portletRootPath = $path;
+	}
+	public function getPortletsRootPath() {
+		return $this->portletsRootPath;
+	}
+	
 	public function getResource($uri) {
 		preg_match('/([^:]*):\/\/(.*)/',$uri,$match);
 		switch($match[1])
 		{
 			case 'portlet':
-				return $this->portletModel->getPortlet('site-root://portlets/'.$match[2]);
+				return $this->portletModel->getPortlet($this->portletsRootPath.$match[2]);
 				break;
 		}
 		return null;

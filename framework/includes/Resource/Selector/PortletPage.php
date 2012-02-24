@@ -21,6 +21,7 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 class Resource_Selector_PortletPage implements Resource_Selector_Interface {
 	private $pageModel = null;
 	private $selector = null;
+	private $portletPagesRootPath = 'site-root://pages';
 	
 	public function getProtocols() {
 		return array('portlet-page');
@@ -33,13 +34,19 @@ class Resource_Selector_PortletPage implements Resource_Selector_Interface {
 		return $this->pageModel;
 	}
 	
+	public function setPortletPagesRootPath($path) {
+		$this->portletRootPath = $path;
+	}
+	public function getPortletPagesRootPath() {
+		return $this->portletPagesRootPath;
+	}
+	
 	public function getResource($uri) {
 		preg_match('/([^:]*):\/\/(.*)/',$uri,$match);
 		switch($match[1])
 		{
 			case 'portlet-page':
-				//$this->pageModel->
-				die('here in Resource_Selector_PortletPage for page '.$uri);
+				return $this->portletModel->getPortlet($this->portletsRootPath.$match[2]);
 				break;
 		}
 		return null;

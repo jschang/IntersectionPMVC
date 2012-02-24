@@ -16,16 +16,14 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<portlet-page title="JonSchang.com" base-page-uri="page://basic-layout">
+<portlet-page title="JonSchang.com" base-page-uri="portlet-page://basic-layout">
 	<row override-id="body-content">
 		<cell width="4" portlet-uri="portlet://navigation.xml"/>
-		<column>
-			<cell width="12" portlet-uri="portlet://homepage/banner.xml"/>
-			<row>
-				<cell width="4" portlet-uri="portlet://homepage/callout1.xml"/>
-				<cell width="4" portlet-uri="portlet://homepage/callout2.xml"/>
-				<cell width="4" portlet-uri="portlet://homepage/callout3.xml"/>
-			</row>
+		<cell width="8" portlet-uri="portlet://homepage/banner.xml">
+		<column width="4">
+			<cell portlet-uri="portlet://homepage/callout1.xml"/>
+			<cell portlet-uri="portlet://homepage/callout2.xml"/>
+			<cell portlet-uri="portlet://homepage/callout3.xml"/>
 		</column>
 	</row>
 </portlet-page>
