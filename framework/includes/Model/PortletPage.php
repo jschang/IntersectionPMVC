@@ -44,9 +44,13 @@ class Model_PortletPage {
 		$nodeParser = new Model_NodeUnmarshaller_PortletPage();
 		$nodeParser->setIoCContainer($this->iocContainer);
 	
-		$xmlSource = $this->resourceSelector->getResource($uri)->getContent();
+		$res = $this->resourceSelector->getResource($uri);
+		if( $res==null ) {
+			throw new Exception_NotFound($uri);
+		}
+		$xmlSource = $res->getContent();
 		$pageXml = new DOMDocument();
-		$pageXml->loadXml($xmlSource);
+		$pageXml->loadXml($xmlSource,LIBXML_NOBLANKS);
 		$pageXml->lookupNamespaceUri($nodeParser->getNamespace());
 		
 		$xpath = new DOMXPath($pageXml);

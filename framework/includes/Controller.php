@@ -18,9 +18,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Exception_InvalidType');
+JVS::loadClass('RequestProcessor');
 
-abstract class Controller {
+abstract class Controller implements RequestProcessor {
 	protected $iocContainer = null;
 	protected $resourceSelector = null;
 	

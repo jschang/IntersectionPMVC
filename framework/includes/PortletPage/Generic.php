@@ -18,5 +18,25 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class PortletPage_Generic {
+JVS::loadClass('PortletPage');
+JVS::loadClass('PortletPage_Component');
+
+class PortletPage_Generic extends PortletPage_Component implements PortletPage {
+	private $uri = null;
+	public function getURI() {
+		return $this->uri;
+	}
+	public function setURI($uri) {
+		$this->uri = $uri;
+	}
+	public function process(Request $request, Response $response) {
+		$response->write("<html><head>");
+		$response->write("<link rel=\"stylesheet\" href=\"/css/grid.css\" type=\"text/css\" media=\"all\" />");
+		$response->write("</head><body>");
+		$children = $this->getChildren();
+		foreach( $children as $child ) {
+			$child->process($request,$response);
+		}
+		$response->write("</body></html>");
+	}
 }

@@ -20,13 +20,11 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 
 class Exception_InvalidType extends Exception {
 
-	public function __construct($parameterPosition, $typeExpected, $valuePassedIn, $code=0, $previous=null) {
+	public function __construct($typeExpected, $valuePassedIn, $code=0, $previous=null) {
 		
 		$typePassedIn = is_object($valuePassedIn) ? get_class($valuePassedIn) : gettype($valuePassedIn);
 		
-		$this->message = 'Parameter '.$parameterPosition
-				.' was of type '.$typePassedIn
-				.', where a type '.$typeExpected.' was expected';
+		$this->message = 'Found type '.$typePassedIn.', where a type '.$typeExpected.' was expected';
 		$this->code = $code;
 	}
 }

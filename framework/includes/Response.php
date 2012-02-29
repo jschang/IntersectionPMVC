@@ -29,6 +29,9 @@ class Response {
 		return $this->contentType;
 	}
 	
+	public function write($content) {
+		$this->body.=$content;
+	}
 	public function setBody($content) {
 		$this->body = $content;
 	}

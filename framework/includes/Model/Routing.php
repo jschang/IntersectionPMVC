@@ -64,7 +64,7 @@ class Model_Routing {
 	
 	private function parseSource() {
 		$doc = new DOMDocument();
-		$doc->loadXml($this->xmlSource->getContent());
+		$doc->loadXml($this->xmlSource->getContent(),LIBXML_NOBLANKS);
 		$doc->lookupNamespaceUri($this->routerParser->getNamespace());
 		$xpath = new DOMXPath($doc);
 		$xpath->registerNamespace('r',$this->routerParser->getNamespace());

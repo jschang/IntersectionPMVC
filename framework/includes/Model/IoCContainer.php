@@ -18,8 +18,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Exception_InvalidType');
-
 class Model_IoCContainer {
 	private $containerSource = null;
 	private $objects = array();
@@ -47,7 +45,7 @@ class Model_IoCContainer {
 	 */
 	private function parseSource() {
 		$dom = new DOMDocument();
-		$dom->loadXML($this->containerSource->getContent());
+		$dom->loadXML($this->containerSource->getContent(),LIBXML_NOBLANKS);
 		$xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('ioc',$this->parser->getNamespace());
 		$objects = $xpath->query('//ioc:objects/ioc:object');
@@ -74,8 +72,9 @@ class Model_IoCContainer {
 			
 		if( $this->objects[$id] instanceof DOMElement ) {
 			$object = $this->parser->parseNode($this->objects[$id]);
-			if( $this->objects[$id] instanceof DOMElement && $this->objects[$id]->getAttribute('scope')=='singleton' )
+			if( $this->objects[$id] instanceof DOMElement && $this->objects[$id]->getAttribute('scope')=='singleton' ) {
 				$this->objects[$id]=$object;
+			}
 			return $object;
 		} else return $this->objects[$id];
 	}

@@ -45,7 +45,7 @@ content-selector
 		</row>
 	</column>
 	<column width="4">
-		<cell/>
-		<cell/>
+		<cell width="2"/>
+		<cell width="2"/>
 	</column>
 </portlet-page>

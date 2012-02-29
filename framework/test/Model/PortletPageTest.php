@@ -44,8 +44,23 @@ class Model_PortletPageTest extends PHPUnit_Framework_TestCase {
 		$this->portletPageModel->setResourceSelector($this->selector);
 		$this->portletPageModel->setIoCContainer($this->ioc);
 	}
+	
 	public function testLoadPage() {
-		$this->portletPageModel->getPortletPage("file://./PortletPageTest.xml");
-		$this->assertTrue(true);
+		$page = $this->portletPageModel->getPortletPage("file://./PortletPageTest.xml");
+		
+		$this->_assertChildren($page,2,'PortletPage_Column');
+		
+		$children = $page->getChildren();
+		$this->_assertChildren($children[0],2,'PortletPage_Row');
+		$this->assertTrue($children[0]->getWidth()==8);
+		$this->_assertChildren($children[1],2,'PortletPage_Cell');
+		$this->assertTrue($children[1]->getWidth()==4);
+	}
+	
+	private function _assertChildren($obj,$childCount,$expectedClass) {
+		$this->assertTrue($obj->getChildren()!=null && count($obj->getChildren())==$childCount);
+		foreach($obj->getChildren() as $child) {
+			$this->assertTrue(is_a($child,$expectedClass));
+		}
 	}
 }

@@ -33,5 +33,7 @@ class Controller_PortletPage extends Controller {
 	
 	public function process(Request $request, Response $response) {
 		$pageObject = $this->resourceSelector->getResource($this->pageXmlUri);
+		$pageObject->process($request,$response);
+		$response->sendAndExit();
 	}
 }

@@ -18,10 +18,37 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class PortletPage_Component {
+JVS::loadClass('RequestProcessor');
+
+class PortletPage_Component implements RequestProcessor {
 
 	private $id = null;
-	private $classes = null;
+	private $classes = array();
+	private $parentComponent = null;
+	private $children = array();
+	private $width = null;
+	
+	public function setWidth($width) {
+		$this->width = $width;
+	}
+	public function getWidth() {
+		return $this->width;
+	}
+	
+	public function setParent(PortletPage_Component $parent) {
+		$this->parentComponent = $parent;
+	}
+	public function getParent() {
+		return $this->parentComponent;
+	}
+	
+	public function addChild($childObject) {
+		$this->children[]=$childObject;
+		return $childObject;
+	}
+	public function getChildren() {
+		return $this->children;
+	}
 
 	public function setId($id) {
 		$this->id = $id;
@@ -35,5 +62,25 @@ class PortletPage_Component {
 	}
 	public function getClasses() {
 		return $this->classes;
+	}
+	public function addClass($class) {
+		$this->classes[$class]=true;
+	}
+	public function removeClass($class) {
+		if( isset($this->classes[$class]) ) {
+			unset($this->classes[$class]);
+		}
+	}
+	public function renderClasses() {
+		$keys = array_keys($this->classes);
+		return implode(' ',$keys);
+	}
+	
+	public function process(Request $request, Response $response) {
+		$response->write("{COMPONENT}");
+		foreach( $this->children as $child ) {
+			$child->process($request,$response);
+		}
+		$response->write("{/COMPONENT}");
 	}
 }

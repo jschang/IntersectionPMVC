@@ -1,4 +1,5 @@
-<!--
+<?php
+/*
 Copyright (C) 2012 Jon Schang
 
 This file is part of IntersectionPMVC, released under the LGPLv3
@@ -15,21 +16,12 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
--->
-<portlet-page title="JonSchang.com" base-page-uri="portlet-page://basic-layout" xmlns="urn:Model_NodeUnmarshaller_PortletPage">
-	<row override-id="body-content">
-		<column>
-			<cell width="8" portlet-uri="portlet://homepage/banner.xml"/>
-			<cell width="8" portlet-uri="portlet://homepage/banner.xml"/>
-			<row> 
-				<cell width="4" portlet-uri="portlet://navigation.xml"/>
-				<cell width="4" portlet-uri="portlet://navigation.xml"/>
-			</row>
-		</column>
-		<column>
-			<cell width="4" portlet-uri="portlet://homepage/callout1.xml"/>
-			<cell width="4" portlet-uri="portlet://homepage/callout2.xml"/>
-			<cell width="4" portlet-uri="portlet://homepage/callout3.xml"/>
-		</column>
-	</row>
-</portlet-page>
+*/
+
+class Exception_Configuration extends Exception {
+
+	public function __construct($message, $code=0, $previous=null) {
+		$this->message = $message;
+		$this->code = $code;
+	}
+}

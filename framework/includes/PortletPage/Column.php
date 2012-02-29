@@ -18,5 +18,15 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+JVS::loadClass('PortletPage_Component');
+
 class PortletPage_Column extends PortletPage_Component {
+	public function process(Request $request, Response $response) {
+		$response->write("<div class=\"col ".$this->renderClasses()."\">\n");
+		$children = $this->getChildren();
+		foreach( $children as $child ) {
+			$child->process($request,$response);
+		}
+		$response->write("</div>\n");
+	}
 }

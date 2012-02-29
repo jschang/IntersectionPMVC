@@ -19,6 +19,7 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 JVS::loadClass('Exception_InvalidClass');
+JVS::loadClass('Exception_InvalidType');
 JVS::loadClass('Model_NodeUnmarshaller');
 
 class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
@@ -46,7 +47,7 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 		return $this->ioc;
 	}
 	
-	public function parseNode(DOMNode $node, $nodeName=null) {
+	public function parseNode(DOMNode $node, $nodeName=null, PortletPage_Component $parentObject=null) {
 	
 		if( empty($nodeName) ) {
 			$nodeName = $node->nodeName;
@@ -77,14 +78,37 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 		$obj = $iocParser->parseNode($node,'object');
 		
 		if( ! is_a($obj, $nodeClassMap[$nodeName]) ) {
-			throw new Exception_InvalidClass("PortletPage_Cell",$obj);
+			throw new Exception_InvalidClass("PortletPage_Component",$obj);
 		}
-		foreach( $node->childNodes as $childNode ) {
+		$childCount = $node->childNodes->length;
+		foreach( $node->childNodes as $idx=>$childNode ) {
 			if($childNode->nodeName=='portlet-page') {
 				throw new Exception("portlet-page may only be the root node");
 			}
-			$childObj = $this->parseNode($childNode);
-			print_r($childObj);
+			$childObj = $this->parseNode($childNode,$childNode->nodeName,$obj);
+			if( $childObj instanceof PortletPage_Cell ) {
+				if( $idx==0 ) {
+					$childObj->addClass('st');
+				}
+				if( $idx==($childCount-1) ) {
+					$childObj->addClass('nd');
+				}
+			}
+		}
+		
+		if( $parentObject!=null ) {
+			$parentObject->addChild($obj);
+		}
+		
+		$width = $node->getAttribute("width");
+		if( empty($width) && $obj instanceof PortletPage_Cell ) {
+			throw new Exception_Configuration("Width is a required configuration for a PortletPage_Cell");
+		}
+		if( !empty($width) ) {
+			if( !is_numeric($width) ) {
+				throw new Exception_InvalidType('Integer',$width);
+			}
+			$obj->setWidth(intval($width));
 		}
 		
 		return $obj;

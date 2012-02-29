@@ -49,7 +49,7 @@ class Model_Portlet {
 	
 		$xmlSource = $this->resourceSelector->getResource($uri)->getContent();
 		$portletXml = new DOMDocument();
-		$portletXml->loadXml($xmlSource);
+		$portletXml->loadXml($xmlSource,LIBXML_NOBLANKS);
 		$portletXml->lookupNamespaceUri($nodeParser->getNamespace());
 		
 		$xpath = new DOMXPath($portletXml);

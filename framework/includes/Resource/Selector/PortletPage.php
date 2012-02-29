@@ -46,7 +46,7 @@ class Resource_Selector_PortletPage implements Resource_Selector_Interface {
 		switch($match[1])
 		{
 			case 'portlet-page':
-				return $this->portletModel->getPortlet($this->portletsRootPath.$match[2]);
+				return $this->pageModel->getPortletPage($this->portletPagesRootPath.'/'.$match[2]);
 				break;
 		}
 		return null;

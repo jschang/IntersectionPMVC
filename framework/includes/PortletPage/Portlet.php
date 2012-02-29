@@ -18,5 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+JVS::loadClass('PortletPage_Component');
+
 class PortletPage_Portlet extends PortletPage_Component {
 }
