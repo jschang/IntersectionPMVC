@@ -54,20 +54,20 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 		}
 		
 		$nodeClassMap = $this->nodeClassMap;
-		if( empty($nodeClassMap[$nodeName]) ) {
-			throw new Exception("$nodeName is not a valid node");
-		}
+		if( !empty($nodeClassMap[$nodeName]) ) {
 		
-		$ref = $node->getAttribute('ref');
-		if( !empty($ref) && !empty($this->ioc) ) {
-			return $this->iocParser->parseObject($node,$this->ioc->getObject($ref));
-		}
-		
-		$backing = $node->getAttribute('backing');
-		if( !empty($backing) ) {
-			$node->setAttribute('class',$backing);
-		} else {
-			$node->setAttribute('class',$nodeClassMap[$nodeName]);
+			$ref = $node->getAttribute('ref');
+			if( !empty($ref) && !empty($this->ioc) ) {
+				return $this->iocParser->parseObject($node,$this->ioc->getObject($ref));
+			}
+			
+			$backing = $node->getAttribute('backing');
+			if( !empty($backing) ) {
+				$node->setAttribute('class',$backing);
+			} else {
+				$node->setAttribute('class',$nodeClassMap[$nodeName]);
+			}
+			
 		}
 		
 		$iocParser = new Model_NodeUnmarshaller_IoCContainer();
@@ -75,40 +75,42 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 			$iocParser->setIoCContainer($this->ioc);
 		}
 		$iocParser->setNamespace($this->xmlNs);
-		$obj = $iocParser->parseNode($node,'object');
+		$obj = $iocParser->parseNode($node,'property');
 		
-		if( ! is_a($obj, $nodeClassMap[$nodeName]) ) {
-			throw new Exception_InvalidClass("PortletPage_Component",$obj);
-		}
-		$childCount = $node->childNodes->length;
-		foreach( $node->childNodes as $idx=>$childNode ) {
-			if($childNode->nodeName=='portlet-page') {
-				throw new Exception("portlet-page may only be the root node");
+		if( !empty($nodeClassMap[$nodeName]) ) {
+			if( ! is_a($obj, $nodeClassMap[$nodeName]) ) {
+				throw new Exception_InvalidClass("PortletPage_Component",$obj);
 			}
-			$childObj = $this->parseNode($childNode,$childNode->nodeName,$obj);
-			if( $childObj instanceof PortletPage_Cell ) {
-				if( $idx==0 ) {
-					$childObj->addClass('st');
+			$childCount = $node->childNodes->length;
+			foreach( $node->childNodes as $idx=>$childNode ) {
+				if($childNode->nodeName=='portlet-page') {
+					throw new Exception("portlet-page may only be the root node");
 				}
-				if( $idx==($childCount-1) ) {
-					$childObj->addClass('nd');
+				$childObj = $this->parseNode($childNode,$childNode->nodeName,$obj);
+				if( $childObj instanceof PortletPage_Cell ) {
+					if( $idx==0 ) {
+						$childObj->addClass(GRID_CLASS_CELL_START);
+					}
+					if( $idx==($childCount-1) ) {
+						$childObj->addClass(GRID_CLASS_CELL_END);
+					}
 				}
+			}
+			
+			$width = $node->getAttribute("width");
+			if( empty($width) && $obj instanceof PortletPage_Cell ) {
+				throw new Exception_Configuration("Width is a required configuration for a PortletPage_Cell");
+			}
+			if( !empty($width) ) {
+				if( !is_numeric($width) ) {
+					throw new Exception_InvalidType('Integer',$width);
+				}
+				$obj->setWidth(intval($width));
 			}
 		}
 		
 		if( $parentObject!=null ) {
 			$parentObject->addChild($obj);
-		}
-		
-		$width = $node->getAttribute("width");
-		if( empty($width) && $obj instanceof PortletPage_Cell ) {
-			throw new Exception_Configuration("Width is a required configuration for a PortletPage_Cell");
-		}
-		if( !empty($width) ) {
-			if( !is_numeric($width) ) {
-				throw new Exception_InvalidType('Integer',$width);
-			}
-			$obj->setWidth(intval($width));
 		}
 		
 		return $obj;

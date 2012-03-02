@@ -20,6 +20,12 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 
 JVS::loadClass('RequestProcessor');
 
+define('GRID_CLASS_CELL_START','st');
+define('GRID_CLASS_CELL_END','nd');
+define('GRID_CLASS_ROW','row');
+define('GRID_CLASS_COLUMN','col');
+define('GRID_PATH_CSS','/css/grid.css');
+
 class PortletPage_Component implements RequestProcessor {
 
 	private $id = null;
@@ -77,10 +83,11 @@ class PortletPage_Component implements RequestProcessor {
 	}
 	
 	public function process(Request $request, Response $response) {
-		$response->write("{COMPONENT}");
-		foreach( $this->children as $child ) {
+		$response->write("<div class=\"".$this->renderClasses()."\">\n");
+		$children = $this->getChildren();
+		foreach( $children as $child ) {
 			$child->process($request,$response);
 		}
-		$response->write("{/COMPONENT}");
+		$response->write("</div>\n");
 	}
 }

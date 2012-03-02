@@ -44,8 +44,9 @@ class Model_NodeUnmarshaller_IoCContainer implements Model_NodeUnmarshaller {
 	}
 	
 	public function parseNode(DOMNode $node,$nodeName=null) {
-		if( $nodeName==null )
+		if( $nodeName==null ) {
 			$nodeName = $node->nodeName;
+		}
 		switch( $nodeName )
 		{
 			case 'object':   return $this->parseObject($node); break;
@@ -68,33 +69,46 @@ class Model_NodeUnmarshaller_IoCContainer implements Model_NodeUnmarshaller {
 			$factoryRef = $object->getAttribute('factory-ref');
 			$className = $object->getAttribute('class');
 			$factoryObj = null;
-			if( !empty($factoryRef) && !empty($this->IoC) )
+			if( !empty($factoryRef) && !empty($this->IoC) ) {
 				$factoryObj = $this->IoC->getObject($factoryRef);			
-			elseif( !empty($className) )
+			} elseif( !empty($className) ) {
 				$factoryObj = $className;
-			
+			}
+		
 			// determine the values for the constructor or factory method parameters
 			$constructorParams = $xpath->query('./ioc:constructor-arguments/ioc:param',$object);
 			$params = $this->parseParams($constructorParams);
 			
 			// actually construct the new object
 			$factoryMethod = $object->getAttribute('factory-method');
-			if( !empty($factoryMethod) )
+			if( !empty($factoryMethod) ) {
 				$newObject = call_user_func_array(array($factoryObj,$factoryMethod),$params);
-			else {
-				if( !class_exists($className) )
+			} else {
+				$className = trim($className);
+				if(empty($className)) {
+					throw new Exception();
+				}
+			
+				if( !class_exists($className) ) {
 					JVS::loadClass($className);
+				}
 				$str = '$newObject = new '.$className.'(';
 				$args=array();
-				foreach($params as $idx=>$param)
+				foreach($params as $idx=>$param) {
 					$args[]='$params['.$idx.']';
+				}
 				$str.= implode(',',$args).');';
 				eval($str);
 			}
-		} else $newObject = $actualObject; 
+		} else { 
+			$newObject = $actualObject; 
+		}
 		
 		$id = $object->getAttribute('id');
-		if( !empty($this->IoC) && !empty($id) && $this->IoC->isSingleton($id) && ! $this->IoC->singletonInstantiated($id) ) {
+		if( !empty($this->IoC) 
+				&& !empty($id) 
+				&& $this->IoC->isSingleton($id) 
+				&& !$this->IoC->singletonInstantiated($id) ) {
 			$this->IoC->setObject( $id, $newObject );
 		}
 
@@ -143,8 +157,9 @@ class Model_NodeUnmarshaller_IoCContainer implements Model_NodeUnmarshaller {
 			
 		$class = $param->getAttribute('class');
 		$factoryRef = $param->getAttribute('factory-ref');
-		if( !empty($class) || !empty($factoryRef) )
+		if( !empty($class) || !empty($factoryRef) ) {
 			return $this->parseObject($param);
+		}
 			
 		$value = $param->getAttribute('value');
 		if( !empty($value) ) {
@@ -159,17 +174,20 @@ class Model_NodeUnmarshaller_IoCContainer implements Model_NodeUnmarshaller {
 		$xpath = new DOMXPath($param->ownerDocument);
 		$xpath->registerNamespace('ioc',$this->xmlNs);
 		$arrayElements = $xpath->query('./ioc:value',$param);
-		if( !empty($arrayElements) )
+		if( !empty($arrayElements) ) {
 			return $this->parseArrayElement($arrayElements);
+		}
 	}
 	
 	public function parseArrayElement(DOMNodeList $arrayElements,$ar=array()) {
 		foreach($arrayElements as $element) {
 			$key = $element->getAttribute('key');
 			$val = $this->parseParam($element);
-			if( !empty($key) )
+			if( !empty($key) ) {
 				$ar[$key] = $val;
-			else $ar[] = $val;
+			} else {
+				$ar[] = $val;
+			}
 		}
 		return $ar;
 	}
