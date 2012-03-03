@@ -22,5 +22,5 @@ JVS::loadClass('Request');
 JVS::loadClass('Response');
 
 interface RequestProcessor {
-	function process(Request $requect, Response $response);
+	function process(Request $request, Response $response);
 }

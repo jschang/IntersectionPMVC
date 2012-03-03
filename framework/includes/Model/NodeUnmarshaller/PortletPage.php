@@ -86,13 +86,15 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 				if($childNode->nodeName=='portlet-page') {
 					throw new Exception("portlet-page may only be the root node");
 				}
-				$childObj = $this->parseNode($childNode,$childNode->nodeName,$obj);
-				if( $childObj instanceof PortletPage_Cell ) {
-					if( $idx==0 ) {
-						$childObj->addClass(GRID_CLASS_CELL_START);
-					}
-					if( $idx==($childCount-1) ) {
-						$childObj->addClass(GRID_CLASS_CELL_END);
+				if( !empty($nodeClassMap[$childNode->nodeName]) ) {
+					$childObj = $this->parseNode($childNode,$childNode->nodeName,$obj);
+					if( $childObj instanceof PortletPage_Cell ) {
+						if( $idx==0 ) {
+							$childObj->addClass(GRID_CLASS_CELL_START);
+						}
+						if( $idx==($childCount-1) ) {
+							$childObj->addClass(GRID_CLASS_CELL_END);
+						}
 					}
 				}
 			}

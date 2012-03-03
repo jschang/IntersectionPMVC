@@ -20,7 +20,7 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 
 JVS::loadClass('RequestProcessor');
 
-abstract class Controller implements RequestProcessor {
+class Controller implements RequestProcessor {
 	protected $iocContainer = null;
 	protected $resourceSelector = null;
 	
@@ -50,5 +50,6 @@ abstract class Controller implements RequestProcessor {
 		return $this->resourceSelector;
 	}
 	
-	abstract public function process(Request $requect, Response $response);
+	public function process(Request $requect, Response $response) {
+	}
 }
