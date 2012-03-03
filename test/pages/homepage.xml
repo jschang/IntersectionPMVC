@@ -17,11 +17,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <portlet-page title="JonSchang.com" base-page-uri="portlet-page://basic-layout" xmlns="urn:Model_NodeUnmarshaller_PortletPage">
-	<property name="styleSheets">
-		<value class="PortletPage_Link">
-			<property name="uri" value="css/grid.css"/>
-		</value>
-	</property>
 	<row override-id="body-content">
 		<column>
 			<cell width="8" portlet-uri="portlet://homepage/banner.xml"/>

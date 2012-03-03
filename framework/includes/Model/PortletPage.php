@@ -25,23 +25,27 @@ JVS::loadClass('Model_NodeUnmarshaller_PortletPage');
 class Model_PortletPage {
 	private $iocContainer = null;
 	private $resourceSelector = null;
+	private $nodeParser = null;
+	
+	public function setNodeParser(Model_NodeUnmarshaller_PortletPage $nodeParser) {
+		$this->nodeParser = $nodeParser;
+	}
 	
 	public function setIoCContainer(Model_IoCContainer $ioc) {
 		$this->iocContainer = $ioc; 
-	}
-	public function getIoCContainer() {
-		return $this->iocContainer;
 	}
 	
 	public function setResourceSelector(Resource_Selector $selector) {
 		$this->resourceSelector = $selector;
 	}	
-	public function getResourceSelector() {
-		return $this->resourceSelector;
-	}
 	
 	public function getPortletPage($uri) {
-		$nodeParser = new Model_NodeUnmarshaller_PortletPage();
+	
+		if( $this->nodeParser==null ) {
+			$nodeParser = new Model_NodeUnmarshaller_PortletPage();
+		} else {
+			$nodeParser = $this->nodeParser;
+		}
 		$nodeParser->setIoCContainer($this->iocContainer);
 	
 		$res = $this->resourceSelector->getResource($uri);

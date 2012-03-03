@@ -32,6 +32,7 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 			'column'=>'PortletPage_Column',
 			'portlet'=>'PortletPage_Portlet'
 		);
+	private $portletPagePrototype = null;
 	
 	public function getNamespace() {
 		return $this->xmlNs;
@@ -43,8 +44,9 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 	public function setIoCContainer(Model_IoCContainer $ioc) {
 		$this->ioc = $ioc;	
 	}
-	public function getIoCContainer() {
-		return $this->ioc;
+	
+	public function setPortletPagePrototype($prototypeName) {
+		$this->portletPagePrototype = $portletPagePrototype;
 	}
 	
 	public function parseNode(DOMNode $node, $nodeName=null, PortletPage_Component $parentObject=null) {
@@ -70,12 +72,16 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 			
 		}
 		
-		$iocParser = new Model_NodeUnmarshaller_IoCContainer();
-		if( !empty($this->ioc) ) {
-			$iocParser->setIoCContainer($this->ioc);
+		if( $nodeName!='portlet-page' || $this->portletPagePrototype==null ) {
+			$iocParser = new Model_NodeUnmarshaller_IoCContainer();
+			if( !empty($this->ioc) ) {
+				$iocParser->setIoCContainer($this->ioc);
+			}
+			$iocParser->setNamespace($this->xmlNs);
+			$obj = $iocParser->parseNode($node,'property');
+		} else {
+			$obj = $this->ioc->getObject($this->pagePortletPrototype);
 		}
-		$iocParser->setNamespace($this->xmlNs);
-		$obj = $iocParser->parseNode($node,'property');
 		
 		if( !empty($nodeClassMap[$nodeName]) ) {
 			if( ! is_a($obj, $nodeClassMap[$nodeName]) ) {

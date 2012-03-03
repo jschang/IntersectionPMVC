@@ -53,6 +53,16 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 		</property>
 	</object>
 	
+	<object id="portlet-page-prototype" class="PortletPage_Generic">
+		<property name="styleSheets">
+			<value class="PortletPage_Link">
+				<property name="uri" value="css/grid.css"/>
+			</value>
+		</property>
+	</object>
+	<object id="portlet-page-node-parser" scope="singleton" class="Model_NodeUnmarshaller_PortletPage">
+		<property name="portletPagePrototype" value="portlet-page-prototype"/>
+	</object>
 	<object id="portlet-page-model" scope="singleton" class="Model_PortletPage">
 		<property name="ioCContainer" ref="this"/>
 		<property name="resourceSelector" ref="resource-selector"/>
