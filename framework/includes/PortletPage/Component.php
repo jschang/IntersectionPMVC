@@ -48,7 +48,24 @@ class PortletPage_Component implements RequestProcessor {
 		return $this->parentComponent;
 	}
 	
-	public function addChild($childObject) {
+	/**
+	 * @param PortletPage_Component
+	 * @return If the replacement was made the child index, else null.
+	 */
+	public function replaceChild(PortletPage_Component $childObject,PortletPage_Component $replacement) {
+		$childIndex = null;
+		foreach( $this->children as $idx=>$child ) {
+			if( $child==$childObject ) {
+				$childIndex = $idx;
+				break;
+			}
+		}
+		if( $childIndex!==null ) {
+			$this->children[$childIndex]=$replacement;
+		}
+		return $childIndex;
+	}
+	public function addChild(PortletPage_Component $childObject) {
 		$this->children[]=$childObject;
 		return $childObject;
 	}
@@ -59,8 +76,40 @@ class PortletPage_Component implements RequestProcessor {
 	public function setId($id) {
 		$this->id = $id;
 	}
-	public function getId($id) {
+	public function getId() {
 		return $this->id;
+	}
+	/**
+	 * Replace the descendent node with the specified id.
+	 *
+	 * @param String the id of the component to replace
+	 * @param PortletPage_Component the component to replace with
+	 * @return PortletPage_Component the component replaced
+	 */
+	public function replaceId($id,PortletPage_Component $node) {
+		$found = $this->findId($id);
+		if( $found!=null && $found['parent']!=null ) {
+			return $found['parent']->replaceChild($found['node'],$node);
+		}
+		return null;
+	}
+	/**
+	 * @param String the id of the component to find
+	 * @return array An array with the 'parent' and the 'node'.  
+	 *   'parent' is null if the node found is the root node.  
+	 *   null is returned if the node is not found.
+	 */
+	public function findId($id,PortletPage_Component $parent=null) {
+		if( $this->getId()==$id ) {
+			return array('parent'=>$parent,'node'=>$this);
+		}
+		foreach( $this->children as $child ) {
+			$ret = $child->findId($id,$this);
+			if( $ret!=null ) {
+				return $ret;
+			}
+		}
+		return null;
 	}
 	
 	public function setClasses(array $classes) {

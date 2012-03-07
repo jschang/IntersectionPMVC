@@ -16,12 +16,31 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<portlet-page>
-	<row>
-		<cell id="header" width="16" portlet-uri="portlet://header.xml"/>
-	</row>
-	<row id="body-content"/>
-	<row>
-		<cell id="footer" width="16" portlet-uri="portlet://footer.xml"/>
-	</row>
+<portlet-page title="JonSchang.com" xmlns="urn:Model_NodeUnmarshaller_PortletPage">
+	<column>
+		<row id="header-row">
+			<cell id="header-cell" width="12" portlet-uri="portlet://header.xml"/>
+		</row>
+		<row id="body-content">
+			<column id="column-left">
+				<cell width="4" portlet-uri="portlet://callout.xml"/>
+				<cell width="4" portlet-uri="portlet://callout.xml"/>
+				<cell width="4" portlet-uri="portlet://callout.xml"/>
+			</column>
+			<column id="column-right">
+				<cell id="banner-cell" width="8" portlet-uri="portlet://banner.xml"/>
+				<row> 
+					<cell id="callout-top-left" width="4" portlet-uri="portlet://callout.xml"/>
+					<cell id="callout-top-right" width="4" portlet-uri="portlet://callout.xml"/>
+				</row>
+				<row> 
+					<cell id="callout-low-left" width="4" portlet-uri="portlet://callout.xml"/>
+					<cell id="callout-low-right" width="4" portlet-uri="portlet://callout.xml"/>
+				</row>
+			</column>
+		</row>
+		<row id="footer-row">
+			<cell id="footer-cell" width="12" portlet-uri="portlet://footer.xml"/>
+		</row>
+	</column>
 </portlet-page>

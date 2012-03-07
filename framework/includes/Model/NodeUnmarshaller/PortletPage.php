@@ -49,13 +49,19 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 		$this->portletPagePrototype = $portletPagePrototype;
 	}
 	
-	public function parseNode(DOMNode $node, $nodeName=null, PortletPage_Component $parentObject=null) {
+	public function parseNode(
+			DOMNode $node, 
+			$nodeName=null, 
+			PortletPage_Component $parentObject=null, 
+			PortletPage $basePage=null 
+		) {
 	
 		if( empty($nodeName) ) {
 			$nodeName = $node->nodeName;
 		}
 		
 		$nodeClassMap = $this->nodeClassMap;
+		$nodeId = null;
 		if( !empty($nodeClassMap[$nodeName]) ) {
 		
 			$ref = $node->getAttribute('ref');
@@ -70,6 +76,10 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 				$node->setAttribute('class',$nodeClassMap[$nodeName]);
 			}
 			
+			$nodeId = $node->getAttribute('id');
+			if( !empty($nodeId) ) {
+				$node->removeAttribute('id');
+			}
 		}
 		
 		if( $nodeName!='portlet-page' || $this->portletPagePrototype==null ) {
@@ -84,16 +94,21 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 		}
 		
 		if( !empty($nodeClassMap[$nodeName]) ) {
+		
 			if( ! is_a($obj, $nodeClassMap[$nodeName]) ) {
 				throw new Exception_InvalidClass("PortletPage_Component",$obj);
 			}
+			
 			$childCount = $node->childNodes->length;
 			foreach( $node->childNodes as $idx=>$childNode ) {
+			
 				if($childNode->nodeName=='portlet-page') {
 					throw new Exception("portlet-page may only be the root node");
 				}
+				
 				if( !empty($nodeClassMap[$childNode->nodeName]) ) {
-					$childObj = $this->parseNode($childNode,$childNode->nodeName,$obj);
+				
+					$childObj = $this->parseNode($childNode,$childNode->nodeName,$obj,$basePage);
 					if( $childObj instanceof PortletPage_Cell ) {
 						if( $idx==0 ) {
 							$childObj->addClass(GRID_CLASS_CELL_START);
@@ -119,6 +134,15 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 		
 		if( $parentObject!=null ) {
 			$parentObject->addChild($obj);
+		}
+		
+		if(!empty($nodeId)) {
+			$obj->setId($nodeId);
+		}
+		
+		$overrideId = $node->getAttribute("override-id");
+		if( ! (empty($basePage) || empty($overrideId)) ) {
+			$basePage->replaceId($overrideId,$obj);
 		}
 		
 		return $obj;

@@ -65,13 +65,22 @@ class Model_PortletPage {
 		if( $portletPageNodes->length != 1 ) {
 			throw new Exception("Expecting a single portlet node in the resource ".$uri);
 		}
-				
-		$portlet = $nodeParser->parseNode($portletPageNodes->item(0));
+		
+		$rootNode = $portletPageNodes->item(0);
+		
+		// see if this page definition is extending another
+		$basePageUri = $rootNode->getAttribute("base-page-uri");
+		$basePage = null;
+		if( !empty($basePageUri) ) {
+			$basePage = $this->resourceSelector->getResource($basePageUri);
+		}
+		
+		$portlet = $nodeParser->parseNode($rootNode,null,null,$basePage);
 		
 		if( ! $portlet instanceof PortletPage ) {
 			throw new Exception_InvalidClass("PortletPage",$portlet);
 		}
 		
-		return $portlet;
+		return !empty($basePage)?$basePage:$portlet;
 	}
 }
