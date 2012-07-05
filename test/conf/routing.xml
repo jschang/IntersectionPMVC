@@ -17,14 +17,17 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <routing resource-selector="resource-selector" xmlns="urn:Model_NodeUnmarshaller_Routing">
-	<path regex="^/index/happy-products/(.*)" ref="portlet-page-controller">
+	<path regex="^/index.php/happy-products/(.*)" ref="portlet-page-controller">
 		<property name="page" value="portlet-page://product-page.xml"/>
 	</path>
-	<path regex="^/index/sad-products/(.*)" ref="portlet-page-controller">
+	<path regex="^/index.php/sad-products/(.*)" ref="portlet-page-controller">
 		<property name="page" value="portlet-page://product-page.xml"/>
 	</path>
-	<path regex="^/index/neutral-products/(.*)" ref="portlet-page-controller">
+	<path regex="^/index.php/neutral-products/(.*)" ref="portlet-page-controller">
 		<property name="page" value="portlet-page://product-page.xml"/>
+	</path>
+	<path regex="^/index.php/article-page/(.*)" ref="portlet-page-controller">
+		<property name="page" value="portlet-page://article-page.xml"/>
 	</path>
 	<path regex="^/(index\.(php|html))?$" ref="portlet-page-controller">
 		<property name="page" value="portlet-page://homepage.xml"/>

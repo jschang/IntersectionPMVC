@@ -132,7 +132,11 @@ class PortletPage_Component implements RequestProcessor {
 	}
 	
 	public function process(Request $request, Response $response) {
-		$response->write("<div class=\"".$this->renderClasses()."\">\n");
+		$response->write("<div ");
+		if(!empty($this->id)) {
+			$response->write("id=\"".$this->id."\" ");
+		}
+		$response->write("class=\"".$this->renderClasses()."\">\n");
 		$children = $this->getChildren();
 		foreach( $children as $child ) {
 			$child->process($request,$response);

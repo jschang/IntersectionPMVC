@@ -17,7 +17,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-.grid       { width: 972px; }
+.grid       { width: 972px; overflow:hidden; }
 
 .cell-1     { width: 50px; }
 .cell-2     { width: 110px; }
@@ -31,16 +31,21 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 .cell-10    { width: 590px; }
 .cell-11    { width: 650px; }
 .cell-12    { width: 710px; }
+.cell-13    { width: 770px; }
+.cell-14    { width: 830px; }
+.cell-15    { width: 890px; }
+.cell-16    { width: 950px; }
 
 .st         { margin-left:0; }
 .nd         { margin-right:0; }
 
 div.col       { float:left; }
 div.col > div { clear:both; }
-div.row       { float:left; }
+div.row       { clear:both; }
 div.row > div { float:left; }
 
 div.cell-1, div.cell-2, div.cell-3, div.cell-4,
 div.cell-5, div.cell-6, div.cell-7, div.cell-8, 
-div.cell-9, div.cell-10, div.cell-11, div.cell-12  
-{ border: 1px solid black; margin: 5 5 5 5; }
+div.cell-9, div.cell-10, div.cell-11, div.cell-12,
+div.cell-13, div.cell-14, div.cell-15, div.cell-16
+{ border: 1px solid black; margin: 5 5 5 5; float:left; }

@@ -51,11 +51,13 @@ class PortletPage_Generic extends PortletPage_Component implements PortletPage {
 		foreach( $this->styleSheets as $styleSheet ) {
 			$styleSheet->process($request,$response);
 		}
-		$response->write("</head><body>");
+		$response->write("</head>");
+		$response->write("<body>");
+		$response->write("<div class=\"grid\">");
 		$children = $this->getChildren();
 		foreach( $children as $child ) {
 			$child->process($request,$response);
 		}
-		$response->write("</body></html>");
+		$response->write("</div></body></html>");
 	}
 }

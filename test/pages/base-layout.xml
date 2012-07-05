@@ -19,16 +19,18 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 <portlet-page title="JonSchang.com" xmlns="urn:Model_NodeUnmarshaller_PortletPage">
 	<column>
 		<row id="header-row">
-			<cell id="header-cell" width="12" portlet-uri="portlet://header.xml"/>
+			<cell id="header-cell" width="16" portlet-uri="portlet://header.xml"/>
 		</row>
 		<row id="body-content">
 			<column id="column-left">
-				<cell width="4" portlet-uri="portlet://callout.xml"/>
-				<cell width="4" portlet-uri="portlet://callout.xml"/>
-				<cell width="4" portlet-uri="portlet://callout.xml"/>
+				<row><cell width="4" portlet-uri="portlet://callout.xml"/></row>
+				<row><cell width="4" portlet-uri="portlet://callout.xml"/></row>
+				<row><cell width="4" portlet-uri="portlet://callout.xml"/></row>
 			</column>
 			<column id="column-right">
-				<cell id="banner-cell" width="8" portlet-uri="portlet://banner.xml"/>
+				<row>
+					<cell id="banner-cell" width="8" portlet-uri="portlet://banner.xml"/>
+				</row>
 				<row> 
 					<cell id="callout-top-left" width="4" portlet-uri="portlet://callout.xml"/>
 					<cell id="callout-top-right" width="4" portlet-uri="portlet://callout.xml"/>
@@ -40,7 +42,7 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 			</column>
 		</row>
 		<row id="footer-row">
-			<cell id="footer-cell" width="12" portlet-uri="portlet://footer.xml"/>
+			<cell id="footer-cell" width="16" portlet-uri="portlet://footer.xml"/>
 		</row>
 	</column>
 </portlet-page>
