@@ -62,7 +62,7 @@ class PortletPage_Link extends PortletPage_Component {
 		return $this->mediaType;
 	}
 
-	public function process(Request $request, Response $response) {
+	public function render(Request $request, Response $response) {
 		$response->write("<link rel=\"".$this->getRel()."\" "
 			."href=\"".$this->getUri()."\" "
 			."type=\"".$this->getType()."\" "

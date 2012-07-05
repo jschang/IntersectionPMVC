@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('RequestProcessor');
+JVS::loadClass('View');
 
 define('GRID_CLASS_CELL_START','st');
 define('GRID_CLASS_CELL_END','nd');
@@ -26,7 +26,7 @@ define('GRID_CLASS_ROW','row');
 define('GRID_CLASS_COLUMN','col');
 define('GRID_PATH_CSS','/css/grid.css');
 
-class PortletPage_Component implements RequestProcessor {
+class PortletPage_Component implements View {
 
 	private $id = null;
 	private $classes = array();
@@ -131,7 +131,7 @@ class PortletPage_Component implements RequestProcessor {
 		return implode(' ',$keys);
 	}
 	
-	public function process(Request $request, Response $response) {
+	public function render(Request $request, Response $response) {
 		$response->write("<div ");
 		if(!empty($this->id)) {
 			$response->write("id=\"".$this->id."\" ");
@@ -139,7 +139,7 @@ class PortletPage_Component implements RequestProcessor {
 		$response->write("class=\"".$this->renderClasses()."\">\n");
 		$children = $this->getChildren();
 		foreach( $children as $child ) {
-			$child->process($request,$response);
+			$child->render($request,$response);
 		}
 		$response->write("</div>\n");
 	}

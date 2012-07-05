@@ -1,4 +1,5 @@
-<!--
+<?php
+/*
 Copyright (C) 2012 Jon Schang
 
 This file is part of IntersectionPMVC, released under the LGPLv3
@@ -15,12 +16,12 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
--->
-<routing resource-selector="resource-selector" xmlns="urn:Model_NodeUnmarshaller_Routing">
-	<path regex="^/index.php/article-page/(.*)" ref="article-page-controller">
-		<property name="page" value="portlet-page://article-page.xml"/>
-	</path>
-	<path regex="^/(index\.(php|html))?$" ref="portlet-page-controller">
-		<property name="page" value="portlet-page://homepage.xml"/>
-	</path>
-</routing>
+*/
+
+JVS::loadClass('Controller_PortletPage');
+
+class Article_PageController extends Controller_PortletPage {
+	public function process(Request $request, Response $response) {
+		return parent::process($request,$response);
+	}
+}

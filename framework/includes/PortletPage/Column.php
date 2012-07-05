@@ -21,8 +21,8 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 JVS::loadClass('PortletPage_Component');
 
 class PortletPage_Column extends PortletPage_Component {
-	public function process(Request $request, Response $response) {
+	public function render(Request $request, Response $response) {
 		$this->addClass(GRID_CLASS_COLUMN);
-		return parent::process($request,$response);
+		return parent::render($request,$response);
 	}
 }

@@ -17,6 +17,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <objects xmlns="urn:Model_NodeUnmarshaller_IoCContainer">
+
 	<object scope="singleton" id='http-response' class='Response'/>
 	<object scope="singleton" id='http-request' class='Request'>
 		<constructor-arguments>
@@ -67,6 +68,9 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="ioCContainer" ref="this"/>
 		<property name="resourceSelector" ref="resource-selector"/>
 	</object>
-	<object id="portlet-page-controller" scope="prototype" class="Controller_PortletPage"/>
+	<object id="portlet-page-controller" scope="prototype" class="Controller_PortletPage">
+		<property name="ioCContainer" ref="this"/>
+		<property name="resourceSelector" ref="resource-selector"/>
+	</object>
 	
 </objects>

@@ -60,16 +60,20 @@ class JVS {
 		JVS::$siteRoot = $siteRoot;
 		JVS::loadClass('Model_IoCContainer');
 		JVS::loadClass('Resource_File');
-		$ioc = JVS::getSiteMergedIoC('framework.xml');
+		$ioc = JVS::getSiteMergedIoC('context.xml');
 
 		$response = $ioc->getObject('http-response');
 		$request = $ioc->getObject('http-request');
 		$router = $ioc->getObject('http-router');
 		$controller = $router->route($request);
-
-		if( $controller instanceof Controller )
-			$controller->process($request,$response);
-		else {
+		
+		if( $controller instanceof Controller ) {
+			$view = $controller->process($request,$response);
+			if(!empty($view)) {
+				$view->render($request,$response);
+			}
+		} else {
+			$response->setStatusCode(404);
 			$response->setBody(	"404 : Error<br/>No Controller is associated with \"".$request->getUri()."\"" );
 		}
 		return $response;

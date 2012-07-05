@@ -16,11 +16,9 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<routing resource-selector="resource-selector" xmlns="urn:Model_NodeUnmarshaller_Routing">
-	<path regex="^/index.php/article-page/(.*)" ref="article-page-controller">
-		<property name="page" value="portlet-page://article-page.xml"/>
-	</path>
-	<path regex="^/(index\.(php|html))?$" ref="portlet-page-controller">
-		<property name="page" value="portlet-page://homepage.xml"/>
-	</path>
-</routing>
+<objects xmlns="urn:Model_NodeUnmarshaller_IoCContainer">
+	<object id="article-page-controller" scope="prototype" class="Article_PageController">
+		<property name="ioCContainer" ref="this"/>
+		<property name="resourceSelector" ref="resource-selector"/>
+	</object>
+</objects>

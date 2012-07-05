@@ -21,12 +21,12 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 JVS::loadClass('PortletPage_Component');
 
 class PortletPage_Cell extends PortletPage_Component {
-	public function process(Request $request, Response $response) {
+	public function render(Request $request, Response $response) {
 		$response->write("<div class=\"cell-".$this->getWidth()." ".$this->renderClasses()."\">\n");
-		$this->processCell($request, $response);
+		$this->renderCell($request, $response);
 		$response->write("</div>\n");
 	}
-	public function processCell(Request $request, Response $response) {
+	public function renderCell(Request $request, Response $response) {
 		$response->write("&nbsp;");
 	}
 }

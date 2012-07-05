@@ -22,7 +22,8 @@ JVS::loadClass('Controller');
 JVS::loadClass('Model_PortletPage');
 
 class Controller_PortletPage extends Controller {
-	private $pageXmlUri = null;
+	protected $pageXmlUri = null;
+	protected $pageObject = null;
 	
 	public function setPage($pageXmlUri) {
 		$this->pageXmlUri = $pageXmlUri;
@@ -32,8 +33,6 @@ class Controller_PortletPage extends Controller {
 	}
 	
 	public function process(Request $request, Response $response) {
-		$pageObject = $this->resourceSelector->getResource($this->pageXmlUri);
-		$pageObject->process($request,$response);
-		$response->sendAndExit();
+		return $this->resourceSelector->getResource($this->pageXmlUri);
 	}
 }
