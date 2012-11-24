@@ -34,4 +34,14 @@ class Request {
 	public function getSelf() {
 		return $this->serverVars['PHP_SELF'];
 	}
+	public function isSecure() {
+	    return !empty($this->serverVars['HTTPS']) && $this->serverVars['HTTPS']=='on';
+	}
+	public function __get($var) {
+	    if(isset($this->urlParams[$var])) {
+	        return $this->urlParams[$var];
+	    } elseif(isset($this->postParams[$var])) {
+	        return $this->postParams[$var];
+	    }
+	}
 }
