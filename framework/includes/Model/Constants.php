@@ -23,16 +23,17 @@ JVS::loadClass('Resource_Content');
 class Model_Constants {
     
     private $constants = array();
+    private $section = null;
     
-    public function __construct(Resource_Content $content, $section=null) {
+    public function __construct(Resource_Content $content, $section='root') {
         
+        $this->section=$section;        
         // check memcache for the content
         
         // else reload
         $tempFile = tempnam(sys_get_temp_dir(), 'redesign');
         file_put_contents($tempFile,$content->getContent());
-        $this->constants = $this->parseConstantsFile($tempFile);
-        print_r($this->constants);
+        $this->constants = $this->parseConstantsFile($tempFile,$section);
         unlink($tempFile);
     }
     
@@ -57,11 +58,12 @@ class Model_Constants {
         foreach($stash as $section=>$vals) {
             $result[$section] = $this->mergeParent($stash,$vals);
         }
+        return $result;
     }
     
     private function mergeParent($stash, $config=null) {
         if(count($config['parts'])!=1) {
-            $parents = $this->mergeParent($stash,$stash[$config['parts'][1]])
+            $parents = $this->mergeParent($stash,$stash[$config['parts'][1]]);
             $config['data'] = array_merge($parents['data'],$config['data']);
         }
         return $config;
