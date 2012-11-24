@@ -64,7 +64,6 @@ class Model_IoCContainer {
 	public function singletonInstantiated($id) {
 		return ( $this->isSingleton($id) && ! $this->objects[$id] instanceof DOMElement );
 	}
-	
 	public function getObject($id) {
 		
 		if( empty($this->objects[$id]) )
@@ -81,5 +80,9 @@ class Model_IoCContainer {
 	
 	public function setObject($id,$object) {
 		$this->objects[$id]=$object;
+	}
+	
+	public function __get($id) {
+	    return $this->getObject($id);
 	}
 }

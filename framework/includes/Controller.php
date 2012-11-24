@@ -49,6 +49,13 @@ abstract class Controller implements RequestProcessor {
 	public function getResourceSelector() {
 		return $this->resourceSelector;
 	}
-	
-	abstract public function process(Request $requect, Response $response);
+	public function forward($controllerName,Request $request=null,Response $response=null) {
+	    return JVS::runController($this->iocContainer->getObject($controllerName),$request,$response);
+	}
+	public function run(Request $request, Response $response) {
+	    $this->request = $request;
+	    $this->response = $response;
+	    return $this->process($request,$response);
+	}
+	abstract public function process(Request $request, Response $response);
 }
