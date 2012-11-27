@@ -22,23 +22,40 @@ JVS::loadClass('Resource_Content');
 
 class Model_Messages {
     
+    private $content = null;
     private $messages = array();
     private $lang = 'en';
     
     public function __construct(Resource_Content $content, $lang='en') {
-        
+        $this->content = $content;
         $this->lang = $lang;
-        
+    }
+    
+    public function get($var) {
+        if(empty($this->messages)) {
+            $this->_load();
+        }
+        return @$this->messages[$this->lang][$var];
+    }
+    
+    public function getAll() {
+        if(empty($this->messages)) {
+            $this->_load();
+        }
+       return @$this->messages[$this->lang];
+    }
+    
+    public function getLastModified() {
+        return $this->content->getLastModified();
+    }
+    
+    private function _load() {
         // check memcache for the content
         
         // else reload
         $tempFile = tempnam(sys_get_temp_dir(), 'redesign');
-        file_put_contents($tempFile,$content->getContent());
+        file_put_contents($tempFile,$this->content->getContent());
         $this->messages = parse_ini_file($tempFile,true);
         unlink($tempFile);
-    }
-    
-    public function get($var) {
-        return @$this->messages[$this->lang][$var];
     }
 }

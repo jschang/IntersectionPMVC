@@ -37,6 +37,9 @@ class Request {
 	public function isSecure() {
 	    return !empty($this->serverVars['HTTPS']) && $this->serverVars['HTTPS']=='on';
 	}
+	public function getAcceptLanguage() {
+	    return $this->serverVars['HTTP_ACCEPT_LANGUAGE'];
+	}
 	public function __get($var) {
 	    if(isset($this->urlParams[$var])) {
 	        return $this->urlParams[$var];

@@ -36,4 +36,7 @@ class Resource_File implements Resource_Content {
 	}
 	public function setContent($content) {
 	}
+	public function getLastModified() {
+	    return filemtime($this->fullPath);
+	}
 }

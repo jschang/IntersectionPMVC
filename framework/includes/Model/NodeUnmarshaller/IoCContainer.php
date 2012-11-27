@@ -151,6 +151,7 @@ class Model_NodeUnmarshaller_IoCContainer implements Model_NodeUnmarshaller {
 	 * @return mixed either an object or scalar value
 	 */
 	public function parseParam(DOMNode $param) {
+	   
 		$ref = $param->getAttribute('ref');
 		if( !empty($ref) && !empty($this->IoC) )
 			return $ref=='this' ? $this->IoC : $this->IoC->getObject($ref);
@@ -174,9 +175,15 @@ class Model_NodeUnmarshaller_IoCContainer implements Model_NodeUnmarshaller {
 		$xpath = new DOMXPath($param->ownerDocument);
 		$xpath->registerNamespace('ioc',$this->xmlNs);
 		$arrayElements = $xpath->query('./ioc:value',$param);
+		$callback = $param->getAttribute('callback');
 		if( !empty($arrayElements) ) {
-			return $this->parseArrayElement($arrayElements);
-		}
+		   $ar = $this->parseArrayElement($arrayElements);
+		   if( empty($callback) ) {
+		      return $ar;
+	      } else {
+			   return call_user_func($ar);
+			}
+		}		
 	}
 	
 	public function parseArrayElement(DOMNodeList $arrayElements,$ar=array()) {

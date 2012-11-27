@@ -23,4 +23,5 @@ JVS::loadClass('Resource');
 interface Resource_Content extends Resource {
 	public function getContent();
 	public function setContent($content);
+	public function getLastModified();
 }
