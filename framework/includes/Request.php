@@ -38,7 +38,15 @@ class Request {
 	    return !empty($this->serverVars['HTTPS']) && $this->serverVars['HTTPS']=='on';
 	}
 	public function getAcceptLanguage() {
-	    return $this->serverVars['HTTP_ACCEPT_LANGUAGE'];
+	    return @$this->serverVars['HTTP_ACCEPT_LANGUAGE'];
+	}
+	public function __isset($var) {
+	    if(isset($this->urlParams[$var])) {
+	        return true;
+	    } elseif(isset($this->postParams[$var])) {
+	        return true;
+	    }
+	    return false;
 	}
 	public function __get($var) {
 	    if(isset($this->urlParams[$var])) {
