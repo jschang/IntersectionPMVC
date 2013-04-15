@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Exception_NotFound extends Exception {
+class IPMVC_Exception_NotFound extends Exception {
 	private $uri=null;
 	public function __construct($uri, $code=0, $previous=null) {
 		$this->message = 'The resource at uri '.$uri.' was not found.';

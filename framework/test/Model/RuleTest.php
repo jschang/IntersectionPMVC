@@ -23,7 +23,7 @@ include_once('PHPUnit/Framework.php');
 include_once('PHPUnit/TextUI/TestRunner.php');
 
 include_once(dirname(__FILE__).'/../../includes/Redesign.php');
-JVS::loadClass('Model_Rule');
+IPMVC::loadClass('Model_Rule');
 
 class Model_RuleTest extends PHPUnit_Framework_TestCase {
 	public function testRule() {

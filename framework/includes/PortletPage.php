@@ -18,13 +18,13 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Resource');
-JVS::loadClass('PortletPage_Component');
-JVS::loadClass('PortletPage_Cell');
-JVS::loadClass('PortletPage_Column');
-JVS::loadClass('PortletPage_Row');
-JVS::loadClass('PortletPage_Portlet');
+IPMVC::loadClass('IPMVC_Resource');
+IPMVC::loadClass('IPMVC_PortletPage_Component');
+IPMVC::loadClass('IPMVC_PortletPage_Cell');
+IPMVC::loadClass('IPMVC_PortletPage_Column');
+IPMVC::loadClass('IPMVC_PortletPage_Row');
+IPMVC::loadClass('IPMVC_PortletPage_Portlet');
 
-interface PortletPage extends Resource {
+interface IPMVC_PortletPage extends IPMVC_Resource {
 	
 }

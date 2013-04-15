@@ -18,5 +18,5 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class AbstractPortletPage implements PortletPage {
+class IPMVC_AbstractPortletPage implements IPMVC_PortletPage {
 }

@@ -18,14 +18,14 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Resource_Content');
+IPMVC::loadClass('IPMVC_Resource_Content');
 
-class Model_Constants {
+class IPMVC_Model_Constants {
     
     private $constants = array();
     private $section = null;
     
-    public function __construct(Resource_Content $content, $section='root') {
+    public function __construct(IPMVC_Resource_Content $content, $section='root') {
         
         $this->section=$section;        
         // check memcache for the content

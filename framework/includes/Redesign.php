@@ -27,17 +27,20 @@ define('CODE_ROOT',REDESIGN_ROOT.DIRECTORY_SEPARATOR.'includes');
 define('CONF_ROOT',REDESIGN_ROOT.DIRECTORY_SEPARATOR.'conf');
 define('CODE_EXTENSION','.php');
 
-class JVS {
+class IPMVC {
 	static private $siteRoot = "";
-	static function loadClass($class) {
+	static function loadClass($className) {
+	    if(strpos($className,'IPMVC_')===0) {
+	        $class = substr($className,6);
+	    } else $class = $className;
 		$parts = explode('_',$class);
 		$path = implode(DIRECTORY_SEPARATOR,$parts);
-		if( ! class_exists($class) ) {
+		if( ! class_exists($className) ) {
 			$file = CODE_ROOT.DIRECTORY_SEPARATOR.$path.CODE_EXTENSION;
 			if( file_exists($file) )
 				include_once($file);
 			else {
-				$file = JVS::getSiteRoot().DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.$path.CODE_EXTENSION;
+				$file = IPMVC::getSiteRoot().DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.$path.CODE_EXTENSION;
 				if( file_exists($file) )
 					include_once($file);
 			} 
@@ -47,42 +50,42 @@ class JVS {
 		return ( gettype($value) == 'object' && is_a($value,$className) );
 	}
 	static function getSiteMergedIoC($file) {
-		$ioc = new Model_IoCContainer( new Resource_File(CONF_ROOT.DIRECTORY_SEPARATOR.$file) );
+		$ioc = new IPMVC_Model_IoCContainer( new IPMVC_Resource_File(CONF_ROOT.DIRECTORY_SEPARATOR.$file) );
 		$toMerge = $ioc->getObject('resource-selector')->getResource('site-root://conf'.DIRECTORY_SEPARATOR.$file);
 		if( $toMerge )
 			$ioc->merge( $toMerge );
 		return $ioc;
 	}
 	static function getSiteRoot() {
-		return JVS::$siteRoot;
+		return IPMVC::$siteRoot;
 	}
 	static function run($siteRoot='.') {
-		$ioc = JVS::loadAppIoC($siteRoot);
+		$ioc = IPMVC::loadAppIoC($siteRoot);
 
 		$response = $ioc->getObject('http-response');
 		$request = $ioc->getObject('http-request');
 		$router = $ioc->getObject('http-router');
 		$controller = $router->route($request);
 		
-		if( $controller instanceof Controller ) {
-			JVS::runController($controller,$request,$response);
+		if( $controller instanceof IPMVC_Controller ) {
+			IPMVC::runController($controller,$request,$response);
 		} else {
 			$response->setStatusCode(404);
 			$response->setBody(	"404 : Error<br/>No Controller is associated with \"".$request->getUri()."\"" );
 		}
 		return $response;
 	}
-	static function runController(Controller $controller,Request $request, Response $response) {
+	static function runController(IPMVC_Controller $controller,IPMVC_Request $request, IPMVC_Response $response) {
 	    $view = $controller->process($request,$response);
         if(!empty($view)) {
             $view->render($request,$response);
         }
 	}
 	static function loadAppIoC($siteRoot='.') {
-	    JVS::$siteRoot = $siteRoot;
-		JVS::loadClass('Model_IoCContainer');
-		JVS::loadClass('Resource_File'); 
-		$ioc = JVS::getSiteMergedIoC('context.xml');
+	    IPMVC::$siteRoot = $siteRoot;
+		IPMVC::loadClass('IPMVC_Model_IoCContainer');
+		IPMVC::loadClass('IPMVC_Resource_File'); 
+		$ioc = IPMVC::getSiteMergedIoC('context.xml');
 		return $ioc;
 	}
 }

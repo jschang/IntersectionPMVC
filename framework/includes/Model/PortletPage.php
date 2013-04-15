@@ -18,31 +18,31 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Resource_File');
-JVS::loadClass('Exception_InvalidClass');
-JVS::loadClass('Model_NodeUnmarshaller_PortletPage');
+IPMVC::loadClass('IPMVC_Resource_File');
+IPMVC::loadClass('IPMVC_Exception_InvalidClass');
+IPMVC::loadClass('IPMVC_Model_NodeUnmarshaller_PortletPage');
 
-class Model_PortletPage {
+class IPMVC_Model_PortletPage {
 	private $iocContainer = null;
 	private $resourceSelector = null;
 	private $nodeParser = null;
 	
-	public function setNodeParser(Model_NodeUnmarshaller_PortletPage $nodeParser) {
+	public function setNodeParser(IPMVC_Model_NodeUnmarshaller_PortletPage $nodeParser) {
 		$this->nodeParser = $nodeParser;
 	}
 	
-	public function setIoCContainer(Model_IoCContainer $ioc) {
+	public function setIoCContainer(IPMVC_Model_IoCContainer $ioc) {
 		$this->iocContainer = $ioc; 
 	}
 	
-	public function setResourceSelector(Resource_Selector $selector) {
+	public function setResourceSelector(IPMVC_Resource_Selector $selector) {
 		$this->resourceSelector = $selector;
 	}	
 	
 	public function getPortletPage($uri) {
 	
 		if( $this->nodeParser==null ) {
-			$nodeParser = new Model_NodeUnmarshaller_PortletPage();
+			$nodeParser = new IPMVC_Model_NodeUnmarshaller_PortletPage();
 		} else {
 			$nodeParser = $this->nodeParser;
 		}
@@ -77,8 +77,8 @@ class Model_PortletPage {
 		
 		$portlet = $nodeParser->parseNode($rootNode,null,null,$basePage);
 		
-		if( ! $portlet instanceof PortletPage ) {
-			throw new Exception_InvalidClass("PortletPage",$portlet);
+		if( ! $portlet instanceof IPMVC_PortletPage ) {
+			throw new IPMVC_Exception_InvalidClass("IPMVC_PortletPage",$portlet);
 		}
 		
 		return !empty($basePage)?$basePage:$portlet;

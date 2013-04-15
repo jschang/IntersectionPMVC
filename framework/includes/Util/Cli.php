@@ -1,6 +1,6 @@
 <?php
 
-class Util_Cli {
+class IPMVC_Util_Cli {
     static public function parse($config, $arguments) {
         $val = null;
         $ret = array();
@@ -51,7 +51,7 @@ class Util_Cli {
 }
 
 if(!empty($argv[0]) && basename($argv[0])=='Cli.php') {
-    $ret = Util_Cli::parse(
+    $ret = IPMVC_Util_Cli::parse(
         array(
             'add'=>array(
                 'expr'=>array('-a','--add'),

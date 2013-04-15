@@ -23,13 +23,13 @@ include_once('PHPUnit/Framework.php');
 include_once('PHPUnit/TextUI/TestRunner.php');
 
 include_once(dirname(__FILE__).'/../../includes/Redesign.php');
-JVS::loadClass('Model_IoCContainer');
+IPMVC::loadClass('IPMVC_Model_IoCContainer');
 
 class Model_IoCContainerTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
-		JVS::loadClass('Model_IoCContainer');
-		JVS::loadClass('Resource_File');
-		$this->ioc = new Model_IoCContainer( new Resource_File((string)"IoCContainerTest.xml") );
+		IPMVC::loadClass('IPMVC_Model_IoCContainer');
+		IPMVC::loadClass('IPMVC_Resource_File');
+		$this->ioc = new IPMVC_Model_IoCContainer( new IPMVC_Resource_File((string)"IoCContainerTest.xml") );
 	}
 	public function testProperties() {
 		$tac = $this->ioc->getObject('testSetProperties');
@@ -55,7 +55,7 @@ class Model_IoCContainerTest extends PHPUnit_Framework_TestCase {
 		$ar = $tac->getProperty1();
 		$this->assertTrue(
 			is_array($ar)
-			&& $ar['test'] instanceof Model_IoCContainerTest_TestObject
+			&& $ar['test'] instanceof IPMVC_Model_IoCContainerTest_TestObject
 			&& $ar['test2'] == 'none'
 			&& $ar[0] === $this->ioc->getObject('singleton')
 		);
@@ -69,16 +69,16 @@ class Model_IoCContainerTest extends PHPUnit_Framework_TestCase {
 	}
 }
 
-class Model_IoCContainerTest_TestObject {
+class IPMVC_Model_IoCContainerTest_TestObject {
 	public function __construct($arg1=null,$arg2=null) {
 		$this->arg1 = $arg1;
 		$this->arg2 = $arg2;
 	}
 	static public function staticFactoryMethod($arg1=null,$arg2=null) {
-		return new Model_IoCContainerTest_TestObject($arg1,$arg2); 
+		return new IPMVC_Model_IoCContainerTest_TestObject($arg1,$arg2); 
 	}
 	public function factoryMethod($arg1=null,$arg2=null) {
-		return new Model_IoCContainerTest_TestObject($arg1,$arg2);
+		return new IPMVC_Model_IoCContainerTest_TestObject($arg1,$arg2);
 	}
 	public function setProperty1($arg1) {
 		$this->arg1 = $arg1;

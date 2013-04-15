@@ -18,9 +18,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('RequestProcessor');
+IPMVC::loadClass('IPMVC_RequestProcessor');
 
-abstract class Controller implements RequestProcessor {
+abstract class IPMVC_Controller implements IPMVC_RequestProcessor {
 	protected $iocContainer = null;
 	protected $resourceSelector = null;
 	
@@ -36,26 +36,26 @@ abstract class Controller implements RequestProcessor {
 		return $this->properties;
 	}
 	
-	public function setIoCContainer(Model_IoCContainer $ioc) {
+	public function setIoCContainer(IPMVC_Model_IoCContainer $ioc) {
 		$this->iocContainer = $ioc; 
 	}
 	public function getIoCContainer() {
 		return $this->iocContainer;
 	}
 	
-	public function setResourceSelector(Resource_Selector $selector) {
+	public function setResourceSelector(IPMVC_Resource_Selector $selector) {
 		$this->resourceSelector = $selector;
 	}	
 	public function getResourceSelector() {
 		return $this->resourceSelector;
 	}
-	public function forward($controllerName,Request $request=null,Response $response=null) {
-	    return JVS::runController($this->iocContainer->getObject($controllerName),$request,$response);
+	public function forward($controllerName,IPMVC_Request $request=null,IPMVC_Response $response=null) {
+	    return IPMVC::runController($this->iocContainer->getObject($controllerName),$request,$response);
 	}
-	public function run(Request $request, Response $response) {
+	public function run(IPMVC_Request $request, IPMVC_Response $response) {
 	    $this->request = $request;
 	    $this->response = $response;
 	    return $this->process($request,$response);
 	}
-	abstract public function process(Request $request, Response $response);
+	abstract public function process(IPMVC_Request $request, IPMVC_Response $response);
 }

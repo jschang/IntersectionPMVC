@@ -18,16 +18,16 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Portlet');
-JVS::loadClass('Portlet_Request');
-JVS::loadClass('Portlet_Response');
+IPMVC::loadClass('IPMVC_Portlet');
+IPMVC::loadClass('IPMVC_Portlet_Request');
+IPMVC::loadClass('IPMVC_Portlet_Response');
 
-abstract class AbstractPortlet implements Portlet {
+abstract class IPMVC_AbstractPortlet implements IPMVC_Portlet {
 
 	private $portletResourceUri = null;
 	
-	abstract public function process(Portlet_Request $request, Portlet_Response $response);
-	abstract public function render(Portlet_Request $request, Portlet_Response $response);
+	abstract public function process(IPMVC_Portlet_Request $request, IPMVC_Portlet_Response $response);
+	abstract public function render(IPMVC_Portlet_Request $request, IPMVC_Portlet_Response $response);
 	
 	public function getURI() {
 		return $this->portletResourceUri;

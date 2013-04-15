@@ -18,9 +18,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Model_Portlet');
+IPMVC::loadClass('IPMVC_Model_Portlet');
 
-class Resource_Selector_Portlet implements Resource_Selector_Interface {
+class IPMVC_Resource_Selector_Portlet implements IPMVC_Resource_Selector_Interface {
 
 	private $portletModel = null;
 	private $selector = null;
@@ -30,7 +30,7 @@ class Resource_Selector_Portlet implements Resource_Selector_Interface {
 		return array('portlet');
 	}
 	
-	public function setPortletModel(Model_Portlet $portletModel) {
+	public function setPortletModel(IPMVC_Model_Portlet $portletModel) {
 		$this->portletModel = $portletModel;
 	}
 	public function getPortletModel() {

@@ -18,10 +18,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Controller');
-JVS::loadClass('Model_PortletPage');
+IPMVC::loadClass('IPMVC_Controller');
+IPMVC::loadClass('IPMVC_Model_PortletPage');
 
-class Controller_PortletPage extends Controller {
+class IPMVC_Controller_PortletPage extends IPMVC_Controller {
 	protected $pageXmlUri = null;
 	protected $pageObject = null;
 	
@@ -32,7 +32,7 @@ class Controller_PortletPage extends Controller {
 		return $this->pageXmlUri;
 	}
 	
-	public function process(Request $request, Response $response) {
+	public function process(IPMVC_Request $request, IPMVC_Response $response) {
 		return $this->resourceSelector->getResource($this->pageXmlUri);
 	}
 }

@@ -18,9 +18,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Exception_Unsupported');
+IPMVC::loadClass('IPMVC_Exception_Unsupported');
 
-class Resource_Selector {
+class IPMVC_Resource_Selector {
 	private $protocolHandlers = array();
 	public function setProtocolHandlers($protocolHandlers) {
 		foreach($protocolHandlers as $handler) {
@@ -32,7 +32,7 @@ class Resource_Selector {
 	public function getResource($uri) {
 		preg_match('/([^:]*):\/\/(.*)/',$uri,$match);
 		if( empty($this->protocolHandlers[$match[1]]) )
-			throw new Exception_Unsupported(__CLASS__,$match[1]);
+			throw new IPMVC_Exception_Unsupported(__CLASS__,$match[1]);
 		else {
 			foreach( $this->protocolHandlers[$match[1]] as $handler ) {
 				$resource = $handler->getResource($uri);

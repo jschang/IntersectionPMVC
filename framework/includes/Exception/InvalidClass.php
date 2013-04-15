@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Exception_InvalidClass extends Exception {
+class IPMVC_Exception_InvalidClass extends Exception {
 
 	public function __construct($typeExpected, $valuePassedIn, $code=0, $previous=null) {
 		

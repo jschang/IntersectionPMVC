@@ -23,27 +23,27 @@ include_once('PHPUnit/Framework.php');
 include_once('PHPUnit/TextUI/TestRunner.php');
 
 include_once(dirname(__FILE__).'/../../includes/Redesign.php');
-JVS::loadClass('Model_Routing');
-JVS::loadClass('Controller');
+IPMVC::loadClass('Model_Routing');
+IPMVC::loadClass('Controller');
 
 class Model_RoutingTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
-		JVS::loadClass('Resource_File');
-		$this->routing = new Model_Routing( new Resource_File('RoutingTest.xml') ); 
+		IPMVC::loadClass('IPMVC_Resource_File');
+		$this->routing = new IPMVC_Model_Routing( new IPMVC_Resource_File('RoutingTest.xml') ); 
 	}	
 	public function testRouting() {
 		$controller = $this->routing->getController('/test/regex/some-more-stuff/on/the-url/');
-		$this->assertTrue($controller instanceof Model_RoutingTest_Controller);
+		$this->assertTrue($controller instanceof IPMVC_Model_RoutingTest_Controller);
 		$this->assertTrue($controller->getPage() == 'portlet-page://product-page');
 		
 		$controller = $this->routing->getController('/index.html');
-		$this->assertTrue($controller instanceof Model_RoutingTest_Controller);
+		$this->assertTrue($controller instanceof IPMVC_Model_RoutingTest_Controller);
 		$this->assertTrue($controller->getPage() == 'portlet-page://homepage');
 	}
 }
 
-class Model_RoutingTest_Controller extends Controller {
+class IPMVC_Model_RoutingTest_Controller extends IPMVC_Controller {
 	function setPage($page) { $this->page = $page; }
 	function getPage()      { return $this->page; }
-	function process(Request $request,Response $response) {}
+	function process(IPMVC_Request $request,IPMVC_Response $response) {}
 }

@@ -18,19 +18,19 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Exception_InvalidClass');
-JVS::loadClass('Exception_InvalidType');
-JVS::loadClass('Model_NodeUnmarshaller');
+IPMVC::loadClass('IPMVC_Exception_InvalidClass');
+IPMVC::loadClass('IPMVC_Exception_InvalidType');
+IPMVC::loadClass('IPMVC_Model_NodeUnmarshaller');
 
-class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
-	private $xmlNs = 'urn:Model_NodeUnmarshaller_PortletPage';
+class IPMVC_Model_NodeUnmarshaller_PortletPage implements IPMVC_Model_NodeUnmarshaller {
+	private $xmlNs = 'urn:IPMVC_Model_NodeUnmarshaller_PortletPage';
 	private $ioc = null;
 	private $nodeClassMap = array(
-			'portlet-page'=>'PortletPage_Generic',
-			'row'=>'PortletPage_Row',
-			'cell'=>'PortletPage_Cell',
-			'column'=>'PortletPage_Column',
-			'portlet'=>'PortletPage_Portlet'
+			'portlet-page'=>'IPMVC_PortletPage_Generic',
+			'row'=>'IPMVC_PortletPage_Row',
+			'cell'=>'IPMVC_PortletPage_Cell',
+			'column'=>'IPMVC_PortletPage_Column',
+			'portlet'=>'IPMVC_PortletPage_Portlet'
 		);
 	private $portletPagePrototype = null;
 	
@@ -41,7 +41,7 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 		$this->xmlNs = $ns;
 	}
 	
-	public function setIoCContainer(Model_IoCContainer $ioc) {
+	public function setIoCContainer(IPMVC_Model_IoCContainer $ioc) {
 		$this->ioc = $ioc;	
 	}
 	
@@ -52,8 +52,8 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 	public function parseNode(
 			DOMNode $node, 
 			$nodeName=null, 
-			PortletPage_Component $parentObject=null, 
-			PortletPage $basePage=null 
+			IPMVC_PortletPage_Component $parentObject=null, 
+			IPMVC_PortletPage $basePage=null 
 		) {
 	
 		if( empty($nodeName) ) {
@@ -83,7 +83,7 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 		}
 		
 		if( $nodeName!='portlet-page' || $this->portletPagePrototype==null ) {
-			$iocParser = new Model_NodeUnmarshaller_IoCContainer();
+			$iocParser = new IPMVC_Model_NodeUnmarshaller_IoCContainer();
 			if( !empty($this->ioc) ) {
 				$iocParser->setIoCContainer($this->ioc);
 			}
@@ -96,7 +96,7 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 		if( !empty($nodeClassMap[$nodeName]) ) {
 		
 			if( ! is_a($obj, $nodeClassMap[$nodeName]) ) {
-				throw new Exception_InvalidClass("PortletPage_Component",$obj);
+				throw new IPMVC_Exception_InvalidClass("PortletPage_Component",$obj);
 			}
 			
 			$childCount = $node->childNodes->length;
@@ -109,7 +109,7 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 				if( !empty($nodeClassMap[$childNode->nodeName]) ) {
 				
 					$childObj = $this->parseNode($childNode,$childNode->nodeName,$obj,$basePage);
-					if( $childObj instanceof PortletPage_Cell ) {
+					if( $childObj instanceof IPMVC_PortletPage_Cell ) {
 						if( $idx==0 ) {
 							$childObj->addClass(GRID_CLASS_CELL_START);
 						}
@@ -121,12 +121,12 @@ class Model_NodeUnmarshaller_PortletPage implements Model_NodeUnmarshaller {
 			}
 			
 			$width = $node->getAttribute("width");
-			if( empty($width) && $obj instanceof PortletPage_Cell ) {
-				throw new Exception_Configuration("Width is a required configuration for a PortletPage_Cell");
+			if( empty($width) && $obj instanceof IPMVC_PortletPage_Cell ) {
+				throw new IPMVC_Exception_Configuration("Width is a required configuration for a PortletPage_Cell");
 			}
 			if( !empty($width) ) {
 				if( !is_numeric($width) ) {
-					throw new Exception_InvalidType('Integer',$width);
+					throw new IPMVC_Exception_InvalidType('Integer',$width);
 				}
 				$obj->setWidth(intval($width));
 			}

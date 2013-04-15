@@ -18,18 +18,18 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Model_NodeUnmarshaller');
+IPMVC::loadClass('IPMVC_Model_NodeUnmarshaller');
 
 /**
  * Pulled these methods out of the Model_IoCContainer because
  * I want to be able to the Xml schema in other Xml based models.
  */
-class Model_NodeUnmarshaller_IoCContainer implements Model_NodeUnmarshaller {
+class IPMVC_Model_NodeUnmarshaller_IoCContainer implements IPMVC_Model_NodeUnmarshaller {
 	
 	private $IoC = null;
-	private $xmlNs = 'urn:Model_NodeUnmarshaller_IoCContainer';
+	private $xmlNs = 'urn:IPMVC_Model_NodeUnmarshaller_IoCContainer';
 	
-	public function setIoCContainer(Model_IoCContainer $IoC) {
+	public function setIoCContainer(IPMVC_Model_IoCContainer $IoC) {
 		$this->IoC = $IoC;
 	}
 	public function getIoCContainer() {
@@ -90,7 +90,7 @@ class Model_NodeUnmarshaller_IoCContainer implements Model_NodeUnmarshaller {
 				}
 			
 				if( !class_exists($className) ) {
-					JVS::loadClass($className);
+					IPMVC::loadClass($className);
 				}
 				$str = '$newObject = new '.$className.'(';
 				$args=array();

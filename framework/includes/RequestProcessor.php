@@ -18,9 +18,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Request');
-JVS::loadClass('Response');
+IPMVC::loadClass('IPMVC_Request');
+IPMVC::loadClass('IPMVC_Response');
 
-interface RequestProcessor {
-	function process(Request $request, Response $response);
+interface IPMVC_RequestProcessor {
+	function process(IPMVC_Request $request, IPMVC_Response $response);
 }

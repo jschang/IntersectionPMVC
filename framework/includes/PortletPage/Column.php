@@ -18,10 +18,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('PortletPage_Component');
+IPMVC::loadClass('PortletPage_Component');
 
-class PortletPage_Column extends PortletPage_Component {
-	public function render(Request $request, Response $response) {
+class IPMVC_PortletPage_Column extends IPMVC_PortletPage_Component {
+	public function render(IPMVC_Request $request, IPMVC_Response $response) {
 		$this->addClass(GRID_CLASS_COLUMN);
 		return parent::render($request,$response);
 	}

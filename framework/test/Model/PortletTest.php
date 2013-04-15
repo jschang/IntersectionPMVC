@@ -23,37 +23,37 @@ include_once('PHPUnit/Framework.php');
 include_once('PHPUnit/TextUI/TestRunner.php');
 
 include_once(dirname(__FILE__).'/../../includes/Redesign.php');
-JVS::loadClass('Model_Portlet');
+IPMVC::loadClass('IPMVC_Model_Portlet');
 
 class Model_PortletTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
-		JVS::loadClass('Model_IoCContainer');
-		JVS::loadClass('Resource_Selector');
-		JVS::loadClass('Resource_Selector_File');
-		JVS::loadClass('Resource_File');
+		IPMVC::loadClass('IPMVC_Model_IoCContainer');
+		IPMVC::loadClass('IPMVC_Resource_Selector');
+		IPMVC::loadClass('IPMVC_Resource_Selector_File');
+		IPMVC::loadClass('IPMVC_Resource_File');
 		
-		$this->portletModel = new Model_Portlet();
+		$this->portletModel = new IPMVC_Model_Portlet();
 		
-		$this->selector = new Resource_Selector();
+		$this->selector = new IPMVC_Resource_Selector();
 		$this->selector->setProtocolHandlers(array(
-			'file'=>new Resource_Selector_File()
+			'file'=>new IPMVC_Resource_Selector_File()
 		));
 		
-		$this->ioc = new Model_IoCContainer( $this->selector->getResource("file://./PortletTest_IoC.xml") );
+		$this->ioc = new IPMVC_Model_IoCContainer( $this->selector->getResource("file://./PortletTest_IoC.xml") );
 		
 		$this->portletModel->setResourceSelector($this->selector);
 		$this->portletModel->setIoCContainer($this->ioc);
 	}
 	public function testLoadPage() {
 		$portlet = $this->portletModel->getPortlet( "file://./PortletTest.xml" );
-		$this->assertTrue($portlet instanceof Portlet);
+		$this->assertTrue($portlet instanceof IPMVC_Portlet);
 		$this->assertTrue($portlet->property1=='test_value');
-		$this->assertTrue($portlet->ioc instanceof Model_IoCContainer);
+		$this->assertTrue($portlet->ioc instanceof IPMVC_Model_IoCContainer);
 	}
 }
 
-JVS::loadClass('AbstractPortlet');
-class Model_PortletTest_Backing extends AbstractPortlet {
+IPMVC::loadClass('AbstractPortlet');
+class IPMVC_Model_PortletTest_Backing extends IPMVC_AbstractPortlet {
 	public $property1 = null;
 	public $ioc = null;
 	public function setProperty1($var) {
@@ -62,8 +62,8 @@ class Model_PortletTest_Backing extends AbstractPortlet {
 	public function setContext($context) {
 		$this->ioc = $context;
 	}
-	public function process(Portlet_Request $request, Portlet_Response $response) {
+	public function process(IPMVC_Portlet_Request $request, IPMVC_Portlet_Response $response) {
 	}
-	public function render(Portlet_Request $request, Portlet_Response $response) {
+	public function render(IPMVC_Portlet_Request $request, IPMVC_Portlet_Response $response) {
 	}
 } 

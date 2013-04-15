@@ -33,7 +33,7 @@ portlet
 content-selector
 	@handler
 -->
-<portlet-page xmlns="urn:Model_NodeUnmarshaller_PortletPage">
+<portlet-page xmlns="urn:IPMVC_Model_NodeUnmarshaller_PortletPage">
 	<column width="8">
 		<row>
 			<cell width="4"/>

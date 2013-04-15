@@ -20,7 +20,7 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 
 include_once('framework/includes/Redesign.php');
 try {
-	$response = JVS::run('test');
+	$response = IPMVC::run('test');
 	$response->sendAndExit();
 } catch(Exception $e) {
 	print_r($e);

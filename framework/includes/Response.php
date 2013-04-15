@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Response {
+class IPMVC_Response {
 	private $body = "";
 	private $contentType = "text/html";
 	private $headers = array();

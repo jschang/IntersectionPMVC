@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-interface Resource {
+interface IPMVC_Resource {
 	function getURI();
 	function setURI($uri);
 }

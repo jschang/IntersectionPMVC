@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('View');
+IPMVC::loadClass('IPMVC_View');
 
 define('GRID_CLASS_CELL_START','st');
 define('GRID_CLASS_CELL_END','nd');
@@ -26,7 +26,7 @@ define('GRID_CLASS_ROW','row');
 define('GRID_CLASS_COLUMN','col');
 define('GRID_PATH_CSS','/css/grid.css');
 
-class PortletPage_Component implements View {
+class IPMVC_PortletPage_Component implements IPMVC_View {
 
 	private $id = null;
 	private $classes = array();
@@ -41,7 +41,7 @@ class PortletPage_Component implements View {
 		return $this->width;
 	}
 	
-	public function setParent(PortletPage_Component $parent) {
+	public function setParent(IPMVC_PortletPage_Component $parent) {
 		$this->parentComponent = $parent;
 	}
 	public function getParent() {
@@ -52,7 +52,7 @@ class PortletPage_Component implements View {
 	 * @param PortletPage_Component
 	 * @return If the replacement was made the child index, else null.
 	 */
-	public function replaceChild(PortletPage_Component $childObject,PortletPage_Component $replacement) {
+	public function replaceChild(IPMVC_PortletPage_Component $childObject,IPMVC_PortletPage_Component $replacement) {
 		$childIndex = null;
 		foreach( $this->children as $idx=>$child ) {
 			if( $child==$childObject ) {
@@ -65,7 +65,7 @@ class PortletPage_Component implements View {
 		}
 		return $childIndex;
 	}
-	public function addChild(PortletPage_Component $childObject) {
+	public function addChild(IPMVC_PortletPage_Component $childObject) {
 		$this->children[]=$childObject;
 		return $childObject;
 	}
@@ -86,7 +86,7 @@ class PortletPage_Component implements View {
 	 * @param PortletPage_Component the component to replace with
 	 * @return PortletPage_Component the component replaced
 	 */
-	public function replaceId($id,PortletPage_Component $node) {
+	public function replaceId($id,IPMVC_PortletPage_Component $node) {
 		$found = $this->findId($id);
 		if( $found!=null && $found['parent']!=null ) {
 			return $found['parent']->replaceChild($found['node'],$node);
@@ -99,7 +99,7 @@ class PortletPage_Component implements View {
 	 *   'parent' is null if the node found is the root node.  
 	 *   null is returned if the node is not found.
 	 */
-	public function findId($id,PortletPage_Component $parent=null) {
+	public function findId($id,IPMVC_PortletPage_Component $parent=null) {
 		if( $this->getId()==$id ) {
 			return array('parent'=>$parent,'node'=>$this);
 		}
@@ -131,7 +131,7 @@ class PortletPage_Component implements View {
 		return implode(' ',$keys);
 	}
 	
-	public function render(Request $request, Response $response) {
+	public function render(IPMVC_Request $request, IPMVC_Response $response) {
 		$response->write("<div ");
 		if(!empty($this->id)) {
 			$response->write("id=\"".$this->id."\" ");

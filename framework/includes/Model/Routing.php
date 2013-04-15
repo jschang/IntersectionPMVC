@@ -18,25 +18,25 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Resource_File');
-JVS::loadClass('Model_IoCContainer');
-JVS::loadClass('Model_NodeUnmarshaller_Routing');
-JVS::loadClass('Exception_NotFound');
+IPMVC::loadClass('IPMVC_Resource_File');
+IPMVC::loadClass('IPMVC_Model_IoCContainer');
+IPMVC::loadClass('IPMVC_Model_NodeUnmarshaller_Routing');
+IPMVC::loadClass('IPMVC_Exception_NotFound');
 
-class Model_Routing {
+class IPMVC_Model_Routing {
 		
 	private $ioc = null;
 		
-	public function setIoCContainer(Model_IoCContainer $ioc) {
+	public function setIoCContainer(IPMVC_Model_IoCContainer $ioc) {
 		$this->ioc = $ioc;
 	}
 	public function getIoCContainer() {
 		return $this->ioc;
 	}
 		
-	public function __construct(Resource_Content $resource) {
+	public function __construct(IPMVC_Resource_Content $resource) {
 		$this->xmlSource = $resource;
-		$this->routerParser = new Model_NodeUnmarshaller_Routing();
+		$this->routerParser = new IPMVC_Model_NodeUnmarshaller_Routing();
 	}
 	
 	public function getController($uri) {

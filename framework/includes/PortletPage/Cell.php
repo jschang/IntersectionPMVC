@@ -18,15 +18,15 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('PortletPage_Component');
+IPMVC::loadClass('IPMVC_PortletPage_Component');
 
-class PortletPage_Cell extends PortletPage_Component {
-	public function render(Request $request, Response $response) {
+class IPMVC_PortletPage_Cell extends IPMVC_PortletPage_Component {
+	public function render(IPMVC_Request $request, IPMVC_Response $response) {
 		$response->write("<div class=\"cell-".$this->getWidth()." ".$this->renderClasses()."\">\n");
 		$this->renderCell($request, $response);
 		$response->write("</div>\n");
 	}
-	public function renderCell(Request $request, Response $response) {
+	public function renderCell(IPMVC_Request $request, IPMVC_Response $response) {
 		$response->write("&nbsp;");
 	}
 }

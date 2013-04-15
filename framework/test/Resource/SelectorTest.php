@@ -23,14 +23,14 @@ include_once('PHPUnit/Framework.php');
 include_once('PHPUnit/TextUI/TestRunner.php');
 
 include_once(dirname(__FILE__).'/../../includes/Redesign.php');
-JVS::loadClass('Resource_Selector');
-JVS::loadClass('Resource_Selector_File');
+IPMVC::loadClass('IPMVC_Resource_Selector');
+IPMVC::loadClass('IPMVC_Resource_Selector_File');
 
 class Resource_SelectorTest extends PHPUnit_Framework_TestCase {
 	public function testFileSelector() {
-		$selector = new Resource_Selector();
+		$selector = new IPMVC_Resource_Selector();
 		$selector->setProtocolHandlers(array(
-			'file'=>new Resource_Selector_File()
+			'file'=>new IPMVC_Resource_Selector_File()
 		));
 		$file = $selector->getResource('file://./SelectorTest.php');
 		$this->assertTrue(strlen($file->getContent())>100);

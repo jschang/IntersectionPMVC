@@ -18,22 +18,22 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Model_IoCContainer {
+class IPMVC_Model_IoCContainer {
 	private $containerSource = null;
 	private $objects = array();
 	private $parser = null;
 	
-	public function __construct(Resource_Content $resource) {
+	public function __construct(IPMVC_Resource_Content $resource) {
 		
-		JVS::loadClass('Model_NodeUnmarshaller_IoCContainer');
+		IPMVC::loadClass('IPMVC_Model_NodeUnmarshaller_IoCContainer');
 		
-		$this->parser = new Model_NodeUnmarshaller_IoCContainer();
+		$this->parser = new IPMVC_Model_NodeUnmarshaller_IoCContainer();
 		$this->parser->setIoCContainer($this);
 		
 		$this->merge($resource);
 	}
 	
-	public function merge(Resource $resource) {
+	public function merge(IPMVC_Resource $resource) {
 		if( empty($resource) )
 			return; 
 		$this->containerSource = $resource;

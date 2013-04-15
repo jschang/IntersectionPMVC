@@ -40,13 +40,13 @@ property
 	@class - parse the node content as an object
 	@value - a scalar type value
 -->
-<objects xmlns="urn:Model_NodeUnmarshaller_IoCContainer">
-	<object id="singleton" scope="singleton" class="Model_IoCContainerTest_TestObject"/>
-	<object id="factorySingleton" scope="singleton" class="Model_IoCContainerTest_TestObject" factory-method="staticFactoryMethod"/>
-	<object id="testArrayConstructor" class="Model_IoCContainerTest_TestObject">
+<objects xmlns="urn:IPMVC_Model_NodeUnmarshaller_IoCContainer">
+	<object id="singleton" scope="singleton" class="IPMVC_Model_IoCContainerTest_TestObject"/>
+	<object id="factorySingleton" scope="singleton" class="IPMVC_Model_IoCContainerTest_TestObject" factory-method="staticFactoryMethod"/>
+	<object id="testArrayConstructor" class="IPMVC_Model_IoCContainerTest_TestObject">
 		<constructor-arguments>
 			<param>
-				<value key="test" class="Model_IoCContainerTest_TestObject">
+				<value key="test" class="IPMVC_Model_IoCContainerTest_TestObject">
 					<constructor-arguments>
 						<param value="argument 1"/>
 						<param value="argument 2"/>
@@ -58,7 +58,7 @@ property
 			<param value="someValue"/>
 		</constructor-arguments>
 	</object>
-	<object id="testSetProperties" class="Model_IoCContainerTest_TestObject">
+	<object id="testSetProperties" class="IPMVC_Model_IoCContainerTest_TestObject">
 		<property name="property1" value="property 1"/>
 		<property method="setProperty2" ref="factorySingleton"/>
 	</object>

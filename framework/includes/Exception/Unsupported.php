@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Exception_Unsupported extends Exception {
+class IPMVC_Exception_Unsupported extends Exception {
 	public function __construct($class, $value, $code=0, $previous=null) {
 		$this->message = '"'.$value.'" is not supported by '.$class;
 		$this->code = $code;

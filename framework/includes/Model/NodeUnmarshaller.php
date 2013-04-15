@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-interface Model_NodeUnmarshaller {
+interface IPMVC_Model_NodeUnmarshaller {
 	
 	function getNamespace();
 	

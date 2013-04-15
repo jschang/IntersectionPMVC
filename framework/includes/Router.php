@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Router {
+class IPMVC_Router {
 	private $routingModel = null;
 	public function setRoutingModel($routingModel) {
 		$this->routingModel = $routingModel;
@@ -26,7 +26,7 @@ class Router {
 	public function getRoutingModel() {
 		return $this->routingModel;
 	}
-	public function route(Request $request) {
+	public function route(IPMVC_Request $request) {
 		$routing = $this->routingModel;
 		return $routing->getController($request->getUri());
 	}

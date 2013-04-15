@@ -18,24 +18,24 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Resource');
-JVS::loadClass('Resource_Selector');
-JVS::loadClass('Model_IoCContainer');
-JVS::loadClass('Exception_NotFound');
-JVS::loadClass('Model_NodeUnmarshaller_Portlet');
+IPMVC::loadClass('IPMVC_Resource');
+IPMVC::loadClass('IPMVC_Resource_Selector');
+IPMVC::loadClass('IPMVC_Model_IoCContainer');
+IPMVC::loadClass('IPMVC_Exception_NotFound');
+IPMVC::loadClass('IPMVC_Model_NodeUnmarshaller_Portlet');
 
-class Model_Portlet {
+class IPMVC_Model_Portlet {
 	private $ioc = null;
 	private $resourceSelector = null;
 	
-	public function setIoCContainer(Model_IoCContainer $ioc) {
+	public function setIoCContainer(IPMVC_Model_IoCContainer $ioc) {
 		$this->ioc = $ioc; 
 	}
 	public function getIoCContainer() {
 		return $this->ioc;
 	}
 	
-	public function setResourceSelector(Resource_Selector $selector) {
+	public function setResourceSelector(IPMVC_Resource_Selector $selector) {
 		$this->resourceSelector = $selector;
 	}	
 	public function getResourceSelector() {
@@ -44,7 +44,7 @@ class Model_Portlet {
 	
 	public function getPortlet($uri) {
 	
-		$nodeParser = new Model_NodeUnmarshaller_Portlet();
+		$nodeParser = new IPMVC_Model_NodeUnmarshaller_Portlet();
 		$nodeParser->setIoCContainer($this->ioc);
 	
 		$xmlSource = $this->resourceSelector->getResource($uri)->getContent();
@@ -63,8 +63,8 @@ class Model_Portlet {
 				
 		$portlet = $nodeParser->parseNode($portletNodes->item(0));
 		
-		if( ! $portlet instanceof Portlet ) {
-			throw new Exception_InvalidClass("Portlet",$portlet);
+		if( ! $portlet instanceof IPMVC_Portlet ) {
+			throw new IPMVC_Exception_InvalidClass("IPMVC_Portlet",$portlet);
 		}
 		
 		return $portlet;

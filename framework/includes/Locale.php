@@ -1,6 +1,6 @@
 <?php
 
-class Locale {
+class IPMVC_Locale {
    
    /** 
     * Determine which language out of an available set the user prefers most.
@@ -14,7 +14,7 @@ class Locale {
       // if $http_accept_language was left out, read it from the HTTP-Header 
       if ($acceptLanguageSource == "auto") $http_accept_language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : ''; 
       
-      if ($acceptLanguageSource instanceof Request) {
+      if ($acceptLanguageSource instanceof IPMVC_Request) {
          $http_accept_language = $acceptLanguageSource->getAcceptLanguage();
       }
 

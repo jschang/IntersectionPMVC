@@ -18,9 +18,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Exception_NodeUnmarshalling extends Exception {
-	private $cause=null;
-	private $message=null;
+class IPMVC_Exception_NodeUnmarshalling extends Exception {
+	protected $cause=null;
+	protected $message=null;
 	public function __construct($message, Exception $cause, $previous=null) {
 		$this->message = $message;
 		$this->cause = $cause;

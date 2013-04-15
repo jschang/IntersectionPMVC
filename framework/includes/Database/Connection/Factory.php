@@ -3,9 +3,9 @@
 /**
  * Class for making database connections conveniently configurable in context.xml
  */
-class Database_Connection_Factory {
+class IPMVC_Database_Connection_Factory {
     private $constants = null;
-    public function __construct(Model_Constants $constants, $constantsPrefix) {
+    public function __construct(IPMVC_Model_Constants $constants, $constantsPrefix) {
         $this->constants = $constants;
         $this->constantsPrefix = $constantsPrefix;
     }

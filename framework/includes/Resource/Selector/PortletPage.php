@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Resource_Selector_PortletPage implements Resource_Selector_Interface {
+class IPMVC_Resource_Selector_PortletPage implements IPMVC_Resource_Selector_Interface {
 	private $pageModel = null;
 	private $selector = null;
 	private $portletPagesRootPath = 'site-root://pages';
@@ -27,7 +27,7 @@ class Resource_Selector_PortletPage implements Resource_Selector_Interface {
 		return array('portlet-page');
 	}
 	
-	public function setPortletPageModel(Model_PortletPage $pageModel) {
+	public function setPortletPageModel(IPMVC_Model_PortletPage $pageModel) {
 		$this->pageModel = $pageModel;
 	}
 	public function getPortletPageModel() {

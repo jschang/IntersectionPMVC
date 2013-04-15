@@ -16,11 +16,11 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<routing xmlns="urn:Model_NodeUnmarshaller_Routing">
-	<path regex="/test/regex/(.*)" backing="Model_RoutingTest_Controller">
+<routing xmlns="urn:IPMVC_Model_NodeUnmarshaller_Routing">
+	<path regex="/test/regex/(.*)" backing="IPMVC_Model_RoutingTest_Controller">
 		<property name="page" value="portlet-page://product-page"/>
 	</path>
-	<path regex="/index\.(php|html)" backing="Model_RoutingTest_Controller">
+	<path regex="/index\.(php|html)" backing="IPMVC_Model_RoutingTest_Controller">
 		<property name="page" value="portlet-page://homepage"/>
 	</path>
 </routing>

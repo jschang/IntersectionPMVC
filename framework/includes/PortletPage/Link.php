@@ -18,9 +18,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('PortletPage_Component');
+IPMVC::loadClass('IPMVC_PortletPage_Component');
 
-class PortletPage_Link extends PortletPage_Component {
+class IPMVC_PortletPage_Link extends IPMVC_PortletPage_Component {
 	
 	private $uri = null;
 	private $rel = "stylesheet";
@@ -62,7 +62,7 @@ class PortletPage_Link extends PortletPage_Component {
 		return $this->mediaType;
 	}
 
-	public function render(Request $request, Response $response) {
+	public function render(IPMVC_Request $request, IPMVC_Response $response) {
 		$response->write("<link rel=\"".$this->getRel()."\" "
 			."href=\"".$this->getUri()."\" "
 			."type=\"".$this->getType()."\" "

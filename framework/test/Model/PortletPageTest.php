@@ -23,23 +23,23 @@ include_once('PHPUnit/Framework.php');
 include_once('PHPUnit/TextUI/TestRunner.php');
 
 include_once(dirname(__FILE__).'/../../includes/Redesign.php');
-JVS::loadClass('Model_PortletPage');
+IPMVC::loadClass('IPMVC_Model_PortletPage');
 
 class Model_PortletPageTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
-		JVS::loadClass('Model_IoCContainer');
-		JVS::loadClass('Resource_Selector');
-		JVS::loadClass('Resource_Selector_File');
-		JVS::loadClass('Resource_File');
+		IPMVC::loadClass('IPMVC_Model_IoCContainer');
+		IPMVC::loadClass('IPMVC_Resource_Selector');
+		IPMVC::loadClass('IPMVC_Resource_Selector_File');
+		IPMVC::loadClass('IPMVC_Resource_File');
 		
-		$this->portletPageModel = new Model_PortletPage();
+		$this->portletPageModel = new IPMVC_Model_PortletPage();
 		
-		$this->selector = new Resource_Selector();
+		$this->selector = new IPMVC_Resource_Selector();
 		$this->selector->setProtocolHandlers(array(
-			'file'=>new Resource_Selector_File()
+			'file'=>new IPMVC_Resource_Selector_File()
 		));
 		
-		$this->ioc = new Model_IoCContainer( $this->selector->getResource("file://./PortletPageTest_IoC.xml") );
+		$this->ioc = new IPMVC_Model_IoCContainer( $this->selector->getResource("file://./PortletPageTest_IoC.xml") );
 		
 		$this->portletPageModel->setResourceSelector($this->selector);
 		$this->portletPageModel->setIoCContainer($this->ioc);
@@ -48,12 +48,12 @@ class Model_PortletPageTest extends PHPUnit_Framework_TestCase {
 	public function testLoadPage() {
 		$page = $this->portletPageModel->getPortletPage("file://./PortletPageTest.xml");
 		
-		$this->_assertChildren($page,2,'PortletPage_Column');
+		$this->_assertChildren($page,2,'IPMVC_PortletPage_Column');
 		
 		$children = $page->getChildren();
-		$this->_assertChildren($children[0],2,'PortletPage_Row');
+		$this->_assertChildren($children[0],2,'IPMVC_PortletPage_Row');
 		$this->assertTrue($children[0]->getWidth()==8);
-		$this->_assertChildren($children[1],2,'PortletPage_Cell');
+		$this->_assertChildren($children[1],2,'IPMVC_PortletPage_Cell');
 		$this->assertTrue($children[1]->getWidth()==4);
 	}
 	

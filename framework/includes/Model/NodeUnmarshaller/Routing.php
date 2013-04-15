@@ -18,21 +18,21 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Model_NodeUnmarshaller_IoCContainer');
-JVS::loadClass('Model_NodeUnmarshaller');
+IPMVC::loadClass('IPMVC_Model_NodeUnmarshaller_IoCContainer');
+IPMVC::loadClass('IPMVC_Model_NodeUnmarshaller');
 
-class Model_NodeUnmarshaller_Routing implements Model_NodeUnmarshaller {
+class IPMVC_Model_NodeUnmarshaller_Routing implements IPMVC_Model_NodeUnmarshaller {
 
 	private $ioc = null;
 	private $iocParser = null;
-	private $xmlNs = 'urn:Model_NodeUnmarshaller_Routing';
+	private $xmlNs = 'urn:IPMVC_Model_NodeUnmarshaller_Routing';
 		
 	public function __construct() {
-		$this->iocParser = new Model_NodeUnmarshaller_IoCContainer();
+		$this->iocParser = new IPMVC_Model_NodeUnmarshaller_IoCContainer();
 		$this->iocParser->setNamespace($this->getNamespace());
 	}
 		
-	public function setIoCContainer(Model_IoCContainer $ioc) {
+	public function setIoCContainer(IPMVC_Model_IoCContainer $ioc) {
 		$this->ioc = $ioc;	
 	}
 	public function getIoCContainer() {

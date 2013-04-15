@@ -18,10 +18,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Model_NodeUnmarshaller_IoCContainer');
+IPMVC::loadClass('IPMVC_Model_NodeUnmarshaller_IoCContainer');
 
-class Model_NodeUnmarshaller_Portlet implements Model_NodeUnmarshaller {
-	private $xmlNs = 'urn:Model_NodeUnmarshaller_Portlet';
+class IPMVC_Model_NodeUnmarshaller_Portlet implements IPMVC_Model_NodeUnmarshaller {
+	private $xmlNs = 'urn:IPMVC_Model_NodeUnmarshaller_Portlet';
 	private $ioc = null;
 	
 	public function getNamespace() {
@@ -31,7 +31,7 @@ class Model_NodeUnmarshaller_Portlet implements Model_NodeUnmarshaller {
 		$this->xmlNs = $ns;
 	}
 	
-	public function setIoCContainer(Model_IoCContainer $ioc) {
+	public function setIoCContainer(IPMVC_Model_IoCContainer $ioc) {
 		$this->ioc = $ioc;	
 	}
 	public function getIoCContainer() {
@@ -54,7 +54,7 @@ class Model_NodeUnmarshaller_Portlet implements Model_NodeUnmarshaller {
 			$node->setAttribute('class',$backing);
 		}
 		
-		$iocParser = new Model_NodeUnmarshaller_IoCContainer();
+		$iocParser = new IPMVC_Model_NodeUnmarshaller_IoCContainer();
 		if( !empty($this->ioc) ) {
 			$iocParser->setIoCContainer($this->ioc);
 		}

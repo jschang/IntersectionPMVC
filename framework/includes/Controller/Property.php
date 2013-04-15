@@ -19,9 +19,9 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
- * A member of the Controller::properties array
+ * A member of the IPMVC_Controller::properties array
  * Defines what can go in each property for a controller
  */
-class Controller_Property {
+class IPMVC_Controller_Property {
 	
 }

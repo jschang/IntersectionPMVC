@@ -18,9 +18,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Resource');
+IPMVC::loadClass('IPMVC_Resource');
 
-interface Resource_Content extends Resource {
+interface IPMVC_Resource_Content extends IPMVC_Resource {
 	public function getContent();
 	public function setContent($content);
 	public function getLastModified();

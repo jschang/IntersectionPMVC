@@ -19,7 +19,7 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 <portlet-page 
 		title="JonSchang.com" 
 		base-page-uri="portlet-page://base-layout.xml" 
-		xmlns="urn:Model_NodeUnmarshaller_PortletPage">
+		xmlns="urn:IPMVC_Model_NodeUnmarshaller_PortletPage">
 		
 	<column override-id="column-right">
 		<row><cell width="8" portlet-uri="portlet://banner.xml"/></row>

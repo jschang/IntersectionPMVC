@@ -18,9 +18,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Resource_Content');
+IPMVC::loadClass('IPMVC_Resource_Content');
 
-class Resource_File implements Resource_Content {
+class IPMVC_Resource_File implements IPMVC_Resource_Content {
 	public $uri = null;
 	public function __construct($fullPath="") {
 		$this->fullPath = $fullPath;

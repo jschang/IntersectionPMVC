@@ -22,5 +22,5 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
  * Defines the type and source of what may be "set"
  * in each property of a Portlet instance
  */
-class Portlet_Property {
+class IPMVC_Portlet_Property {
 }

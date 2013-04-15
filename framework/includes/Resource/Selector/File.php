@@ -18,10 +18,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-JVS::loadClass('Resource_Selector_Interface');
-JVS::loadClass('Resource_File');
+IPMVC::loadClass('IPMVC_Resource_Selector_Interface');
+IPMVC::loadClass('IPMVC_Resource_File');
 
-class Resource_Selector_File implements Resource_Selector_Interface {
+class IPMVC_Resource_Selector_File implements IPMVC_Resource_Selector_Interface {
 	public function getProtocols() {
 		return array('file','code-root','site-root');
 	}
@@ -36,11 +36,11 @@ class Resource_Selector_File implements Resource_Selector_Interface {
 				$file = CODE_ROOT.DIRECTORY_SEPARATOR.$match[2];
 				break;
 			case 'site-root':
-				$file = JVS::getSiteRoot().DIRECTORY_SEPARATOR.$match[2];
+				$file = IPMVC::getSiteRoot().DIRECTORY_SEPARATOR.$match[2];
 				break;
 		}
 		if( !empty($file) && file_exists($file) ) {
-			$resource = new Resource_File($file);
+			$resource = new IPMVC_Resource_File($file);
 			$resource->setURI($uri);
 		}
 		return $resource;
