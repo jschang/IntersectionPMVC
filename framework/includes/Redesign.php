@@ -57,10 +57,7 @@ class JVS {
 		return JVS::$siteRoot;
 	}
 	static function run($siteRoot='.') {
-		JVS::$siteRoot = $siteRoot;
-		JVS::loadClass('Model_IoCContainer');
-		JVS::loadClass('Resource_File'); 
-		$ioc = JVS::getSiteMergedIoC('context.xml');
+		$ioc = JVS::loadAppIoC($siteRoot);
 
 		$response = $ioc->getObject('http-response');
 		$request = $ioc->getObject('http-request');
@@ -80,5 +77,12 @@ class JVS {
         if(!empty($view)) {
             $view->render($request,$response);
         }
+	}
+	static function loadAppIoC($siteRoot='.') {
+	    JVS::$siteRoot = $siteRoot;
+		JVS::loadClass('Model_IoCContainer');
+		JVS::loadClass('Resource_File'); 
+		$ioc = JVS::getSiteMergedIoC('context.xml');
+		return $ioc;
 	}
 }
