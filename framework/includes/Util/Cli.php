@@ -15,7 +15,12 @@ class Util_Cli {
                         } else {
                             $value = implode('=',array_slice($parts,1));
                         }
-                        $ret['opts'][$thisConfig['name']]=$value;
+                        if($thisConfig['eval']) {
+                            eval('$var=@'.$value.';');
+                            $ret['opts'][$thisConfig['name']]=$var;
+                        } else {
+                            $ret['opts'][$thisConfig['name']]=$value;
+                        }
                     } else {
                         $ret['opts'][$thisConfig['name']]=true;
                     }
@@ -26,6 +31,11 @@ class Util_Cli {
                 // if we're not in an option,
                 // then this may be a sequenced value
                 $ret['args'][]=$val;
+            }
+        }
+        foreach($config as $name=>$conf) {
+            if( !isset($ret['opts'][$name]) && isset($conf['default']) ) {
+                $ret['opts'][$name]=$conf['default'];
             }
         }
         return $ret;
