@@ -21,12 +21,19 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 IPMVC::loadClass('IPMVC_PortletPage_Component');
 
 class IPMVC_PortletPage_Cell extends IPMVC_PortletPage_Component {
+	public function setIoC($ioc) {
+		$this->ioc = $ioc;
+	}
+	public function setPortletUri($uri) {
+		$this->portletUri = $uri;
+	}
 	public function render(IPMVC_Request $request, IPMVC_Response $response) {
 		$response->write("<div class=\"cell-".$this->getWidth()." ".$this->renderClasses()."\">\n");
 		$this->renderCell($request, $response);
 		$response->write("</div>\n");
 	}
 	public function renderCell(IPMVC_Request $request, IPMVC_Response $response) {
+		$o = $this->ioc->getObject("resource-selector")->getResource($this->portletUri);
 		$response->write("&nbsp;");
 	}
 }

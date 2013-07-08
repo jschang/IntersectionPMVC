@@ -66,20 +66,20 @@ class IPMVC {
 		$request = $ioc->getObject('http-request');
 		$router = $ioc->getObject('http-router');
 		$controller = $router->route($request);
-		
+
 		if( $controller instanceof IPMVC_Controller ) {
 			IPMVC::runController($controller,$request,$response);
 		} else {
 			$response->setStatusCode(404);
-			$response->setBody(	"404 : Error<br/>No Controller is associated with \"".$request->getUri()."\"" );
+			$response->setBody("404 : Error<br/>No Controller is associated with \"".$request->getUri()."\"");
 		}
 		return $response;
 	}
 	static function runController(IPMVC_Controller $controller,IPMVC_Request $request, IPMVC_Response $response) {
-	    $view = $controller->process($request,$response);
-        if(!empty($view)) {
-            $view->render($request,$response);
-        }
+		$view = $controller->process($request,$response);
+		if(!empty($view)) {
+			$view->render($request,$response);
+		}
 	}
 	static function loadAppIoC($siteRoot='.') {
 	    IPMVC::$siteRoot = $siteRoot;

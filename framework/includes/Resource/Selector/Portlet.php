@@ -49,7 +49,7 @@ class IPMVC_Resource_Selector_Portlet implements IPMVC_Resource_Selector_Interfa
 		switch($match[1])
 		{
 			case 'portlet':
-				return $this->portletModel->getPortlet($this->portletsRootPath.$match[2]);
+				return $this->portletModel->getPortlet($this->portletsRootPath.'/'.$match[2]);
 				break;
 		}
 		return null;

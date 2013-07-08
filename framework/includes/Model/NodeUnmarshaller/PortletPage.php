@@ -130,6 +130,14 @@ class IPMVC_Model_NodeUnmarshaller_PortletPage implements IPMVC_Model_NodeUnmars
 				}
 				$obj->setWidth(intval($width));
 			}
+			$uri = $node->getAttribute("portlet-uri");
+			if( $obj instanceof IPMVC_PortletPage_Cell ) {
+				if( empty($uri) ) {
+					throw new IPMVC_Exception_Configuration("portlet-uri is a required configuration attribute for a PortletPage_Cell");
+				}
+				$obj->setPortletUri($uri);
+				$obj->setIoC($this->ioc);
+			} 
 		}
 		
 		if( $parentObject!=null ) {

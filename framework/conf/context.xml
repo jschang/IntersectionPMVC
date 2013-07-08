@@ -42,7 +42,9 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 	</object>
 	
 	<object id="resource-selector-file" scope="singleton" class="IPMVC_Resource_Selector_File"/>
-	<object id="resource-selector-portlet" scope="singleton" class="IPMVC_Resource_Selector_Portlet"/>
+	<object id="resource-selector-portlet" scope="singleton" class="IPMVC_Resource_Selector_Portlet">
+		<property name="portletModel" ref="portlet-model"/>
+	</object>
 	<object id="resource-selector-portlet-page" scope="singleton" class="IPMVC_Resource_Selector_PortletPage">
 		<property name="portletPageModel" ref="portlet-page-model"/>
 	</object>
@@ -52,6 +54,11 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 			<value ref="resource-selector-portlet"/>
 			<value ref="resource-selector-portlet-page"/>
 		</property>
+	</object>
+	
+	<object id="portlet-model" scope="singleton" class="IPMVC_Model_Portlet">
+		<property name="ioCContainer" ref="this"/>
+		<property name="resourceSelector" ref="resource-selector"/>
 	</object>
 	
 	<object id="portlet-page-prototype" class="IPMVC_PortletPage_Generic">

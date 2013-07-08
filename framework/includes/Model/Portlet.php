@@ -46,8 +46,9 @@ class IPMVC_Model_Portlet {
 	
 		$nodeParser = new IPMVC_Model_NodeUnmarshaller_Portlet();
 		$nodeParser->setIoCContainer($this->ioc);
-	
-		$xmlSource = $this->resourceSelector->getResource($uri)->getContent();
+
+		$xmlRes = $this->resourceSelector->getResource($uri);
+		$xmlSource = $xmlRes->getContent();
 		$portletXml = new DOMDocument();
 		$portletXml->loadXml($xmlSource,LIBXML_NOBLANKS);
 		$portletXml->lookupNamespaceUri($nodeParser->getNamespace());
@@ -57,6 +58,9 @@ class IPMVC_Model_Portlet {
 		
 		$portletXpath = "//r:portlet";
 		$portletNodes = $xpath->query($portletXpath);
+		if( $portletNodes->length == 0 ) {
+			throw new Exception("No portlet node in the resource ".$uri.'.  Is the xmlns correct (urn:IPMVC_Model_NodeUnmarshaller_Portlet)?');
+		}
 		if( $portletNodes->length != 1 ) {
 			throw new Exception("Expecting a single portlet node in the resource ".$uri);
 		}

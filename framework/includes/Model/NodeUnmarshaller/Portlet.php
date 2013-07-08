@@ -39,7 +39,7 @@ class IPMVC_Model_NodeUnmarshaller_Portlet implements IPMVC_Model_NodeUnmarshall
 	}
 	
 	public function parseNode(DOMNode $node, $nodeName=null) {
-	
+
 		if( empty($nodeName) ) {
 			$nodeName = $node->nodeName;
 		}
@@ -59,6 +59,7 @@ class IPMVC_Model_NodeUnmarshaller_Portlet implements IPMVC_Model_NodeUnmarshall
 			$iocParser->setIoCContainer($this->ioc);
 		}
 		$iocParser->setNamespace($this->xmlNs);
-		return $iocParser->parseNode($node,'object');
+		$o = $iocParser->parseNode($node,'object');
+		return $o;
 	}
 }
