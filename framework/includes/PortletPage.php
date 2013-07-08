@@ -26,5 +26,4 @@ IPMVC::loadClass('IPMVC_PortletPage_Row');
 IPMVC::loadClass('IPMVC_PortletPage_Portlet');
 
 interface IPMVC_PortletPage extends IPMVC_Resource {
-	
 }

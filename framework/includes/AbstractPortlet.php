@@ -26,13 +26,20 @@ abstract class IPMVC_AbstractPortlet implements IPMVC_Portlet {
 
 	private $portletResourceUri = null;
 	
-	abstract public function process(IPMVC_Portlet_Request $request, IPMVC_Portlet_Response $response);
+	abstract public function process(IPMVC_Portlet_Request $request);
 	abstract public function render(IPMVC_Portlet_Request $request, IPMVC_Portlet_Response $response);
 	
 	public function getURI() {
 		return $this->portletResourceUri;
 	}
 	public function setURI($uri) {
+		$this->portletResourceUri = $uri;
+	}
+	
+	public function getResourceUri() {
+		return $this->portletResourceUri;
+	}
+	public function setResourceUri($uri) {
 		$this->portletResourceUri = $uri;
 	}
 }

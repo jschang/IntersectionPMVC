@@ -21,9 +21,12 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 class IPMVC_Portlet_Response {
 	private $content = "";
 	public function setContent($content) {
-		$this->content;
+		$this->content = $content;
 	}
 	public function getContent() {
 		return $this->content;
+	}
+	public function write($content) {
+		$this->content.=$content;
 	}
 }

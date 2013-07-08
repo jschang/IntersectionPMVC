@@ -21,8 +21,8 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 IPMVC::loadClass('IPMVC_PortletPage_Component');
 
 class IPMVC_PortletPage_Row extends IPMVC_PortletPage_Component {
-	public function render(IPMVC_Request $request, IPMVC_Response $response) {
+	public function renderChild(IPMVC_Portlet_Request $request, IPMVC_Response $response) {
 		$this->addClass(GRID_CLASS_ROW);
-		return parent::render($request,$response);
+		return parent::renderChild($request,$response);
 	}
 }

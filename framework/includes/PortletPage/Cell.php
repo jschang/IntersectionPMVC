@@ -27,13 +27,16 @@ class IPMVC_PortletPage_Cell extends IPMVC_PortletPage_Component {
 	public function setPortletUri($uri) {
 		$this->portletUri = $uri;
 	}
-	public function render(IPMVC_Request $request, IPMVC_Response $response) {
-		$response->write("<div class=\"cell-".$this->getWidth()." ".$this->renderClasses()."\">\n");
-		$this->renderCell($request, $response);
-		$response->write("</div>\n");
+	public function process(IPMVC_Portlet_Request $request) {
+		$this->portlet = $this->ioc->getObject("resource-selector")->getResource($this->portletUri);
+		$this->portlet->process($request);
 	}
-	public function renderCell(IPMVC_Request $request, IPMVC_Response $response) {
-		$o = $this->ioc->getObject("resource-selector")->getResource($this->portletUri);
-		$response->write("&nbsp;");
+	
+	public function renderChild(IPMVC_Portlet_Request $request, IPMVC_Response $response) {
+		$response->write("<div class=\"cell-".$this->getWidth()." ".$this->renderClasses()."\">\n");
+		$portletResponse = new IPMVC_Portlet_Response();
+		$this->portlet->render($request,$portletResponse);
+		$response->write($portletResponse->getContent());
+		$response->write("</div>\n");
 	}
 }

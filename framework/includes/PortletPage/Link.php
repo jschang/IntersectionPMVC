@@ -62,7 +62,7 @@ class IPMVC_PortletPage_Link extends IPMVC_PortletPage_Component {
 		return $this->mediaType;
 	}
 
-	public function render(IPMVC_Request $request, IPMVC_Response $response) {
+	public function renderChild(IPMVC_Portlet_Request $request, IPMVC_Response $response) {
 		$response->write("<link rel=\"".$this->getRel()."\" "
 			."href=\"".$this->getUri()."\" "
 			."type=\"".$this->getType()."\" "

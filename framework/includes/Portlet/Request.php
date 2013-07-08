@@ -26,4 +26,10 @@ class IPMVC_Portlet_Request {
 	public function getHttpRequest() {
 		return $this->httpRequest;
 	}
+	public function __isset($var) {
+	    return isset($this->httpRequest->$var);
+	}
+	public function __get($var) {
+	    return $this->httpRequest->$var;
+	}
 }

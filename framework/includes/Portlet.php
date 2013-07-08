@@ -22,6 +22,6 @@ IPMVC::loadClass('IPMVC_Portlet_Request');
 IPMVC::loadClass('IPMVC_Portlet_Response');
 
 interface IPMVC_Portlet extends IPMVC_Resource {
-	function process(IPMVC_Portlet_Request $request, IPMVC_Portlet_Response $response);
+	function process(IPMVC_Portlet_Request $request);
 	function render(IPMVC_Portlet_Request $request, IPMVC_Portlet_Response $response);
 }

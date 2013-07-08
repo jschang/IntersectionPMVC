@@ -131,7 +131,23 @@ class IPMVC_PortletPage_Component implements IPMVC_View {
 		return implode(' ',$keys);
 	}
 	
+	public function process(IPMVC_Portlet_Request $portletRequest) {
+		
+		$children = $this->getChildren();
+		foreach( $children as $child ) {
+			$child->process($portletRequest);
+		}
+	}
+
 	public function render(IPMVC_Request $request, IPMVC_Response $response) {
+		
+		$portletRequest = new IPMVC_Portlet_Request();
+		$portletRequest->setHttpRequest($request);
+		
+		$this->renderChild($portletRequest,$response);
+	}
+	
+	public function renderChild(IPMVC_Portlet_Request $request, IPMVC_Response $response) {
 		$response->write("<div ");
 		if(!empty($this->id)) {
 			$response->write("id=\"".$this->id."\" ");
@@ -139,7 +155,7 @@ class IPMVC_PortletPage_Component implements IPMVC_View {
 		$response->write("class=\"".$this->renderClasses()."\">\n");
 		$children = $this->getChildren();
 		foreach( $children as $child ) {
-			$child->render($request,$response);
+			$child->renderChild($request,$response);
 		}
 		$response->write("</div>\n");
 	}

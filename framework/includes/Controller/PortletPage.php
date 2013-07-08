@@ -33,6 +33,10 @@ class IPMVC_Controller_PortletPage extends IPMVC_Controller {
 	}
 	
 	public function process(IPMVC_Request $request, IPMVC_Response $response) {
-		return $this->resourceSelector->getResource($this->pageXmlUri);
+		$portletPage = $this->resourceSelector->getResource($this->pageXmlUri);
+		$portletRequest = new IPMVC_Portlet_Request();
+		$portletRequest->setHttpRequest($request);
+		$portletPage->process($portletRequest,$response);
+		return $portletPage; // the portlet page is also a view, and has render()
 	}
 }
