@@ -22,6 +22,8 @@ class IPMVC_Model_IoCContainer {
 	private $containerSource = null;
 	private $objects = array();
 	private $parser = null;
+	private $preprocessors = array();
+	private $parsingPreProcessors = false;
 	
 	public function __construct(IPMVC_Resource_Content $resource) {
 		
@@ -49,8 +51,12 @@ class IPMVC_Model_IoCContainer {
 		$xpath = new DOMXPath($dom);
 		$xpath->registerNamespace('ioc',$this->parser->getNamespace());
 		$objects = $xpath->query('//ioc:objects/ioc:object');
+		$this->preprocessors = array();
 		foreach($objects as $obj) {
 			$this->objects[$obj->getAttribute('id')]=$obj;
+			if( is_subclass_of($obj->getAttribute('class'),'IPMVC_IoC_ParamValuePreProcessor') ) {
+				$this->preprocessors[$obj->getAttribute('id')]=$obj;
+			}
 		}
 	}
 	
@@ -68,7 +74,20 @@ class IPMVC_Model_IoCContainer {
 		
 		if( empty($this->objects[$id]) )
 			throw new RuntimeException("There is no object ".$id." in the IoC");
-			
+		
+		if(!empty($this->preprocessors)
+			&& reset($this->preprocessors) instanceof DOMElement
+			&& !$this->parsingPreProcessors // to prevent infinite recursion
+			) {
+			$this->parsingPreProcessors = true;
+			foreach($this->preprocessors as $i=>$o) {
+				$this->objects[$i]
+					= $this->preprocessors[$i]
+					= $this->parser->parseNode($o);
+			}
+			$this->parsingPreProcessors = false;
+		}
+		
 		if( $this->objects[$id] instanceof DOMElement ) {
 			$object = $this->parser->parseNode($this->objects[$id]);
 			if( $this->objects[$id] instanceof DOMElement && $this->objects[$id]->getAttribute('scope')=='singleton' ) {
@@ -82,7 +101,21 @@ class IPMVC_Model_IoCContainer {
 		$this->objects[$id]=$object;
 	}
 	
+	public function preProcessValue($value) {
+		if($this->parsingPreProcessors)
+			return $value;
+		$ret = $value;
+		foreach($this->preprocessors as $processor) {
+			$ret = $processor->process($value);			
+		}
+		return $ret;
+	}
+	
 	public function __get($id) {
 	    return $this->getObject($id);
+	}
+	
+	public function __isset($id) {
+	    return !empty($this->objects[$id]);
 	}
 }

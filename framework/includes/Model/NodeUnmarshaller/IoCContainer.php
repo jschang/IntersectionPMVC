@@ -148,6 +148,8 @@ class IPMVC_Model_NodeUnmarshaller_IoCContainer implements IPMVC_Model_NodeUnmar
 	}
 	
 	/**
+	 * The core of each type of node: object, param, property.
+	 *
 	 * @return mixed either an object or scalar value
 	 */
 	public function parseParam(DOMNode $param) {
@@ -163,12 +165,15 @@ class IPMVC_Model_NodeUnmarshaller_IoCContainer implements IPMVC_Model_NodeUnmar
 		}
 			
 		$value = $param->getAttribute('value');
+		
 		if( !empty($value) ) {
-			if( $value == '$_SERVER' )
-				return $_SERVER; 
+			
+			$value = $this->IoC->preProcessValue($value);
+			
+			// condition so that super-globals may be context configured
 			if( $value{0} == '$' ) {
 				$value = substr($value,1);
-				return $GLOBALS[$value];
+				return $GLOBALS[$value];	
 			} else return $value;
 		}
 			

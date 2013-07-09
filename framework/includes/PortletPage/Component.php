@@ -24,7 +24,6 @@ define('GRID_CLASS_CELL_START','st');
 define('GRID_CLASS_CELL_END','nd');
 define('GRID_CLASS_ROW','row');
 define('GRID_CLASS_COLUMN','col');
-define('GRID_PATH_CSS','/css/grid.css');
 
 class IPMVC_PortletPage_Component implements IPMVC_View {
 

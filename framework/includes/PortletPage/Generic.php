@@ -26,12 +26,6 @@ class IPMVC_PortletPage_Generic extends IPMVC_PortletPage_Component implements I
 	private $uri = null;
 	private $styleSheets = array();
 	
-	public function __construct() {
-		$link = new IPMVC_PortletPage_Link();
-		$link->setUri(GRID_PATH_CSS);
-		$this->styleSheets[]=$link;
-	}
-	
 	public function getURI() {
 		return $this->uri;
 	}
