@@ -90,11 +90,13 @@ class IPMVC_Model_IoCContainer {
 		
 		// lazy initialize any param value pre-processors
 		if(!empty($this->preprocessors)
-			&& reset($this->preprocessors) instanceof DOMElement
 			&& !$this->isParsingPreProcessors // to prevent infinite recursion
 			) {
 			$this->isParsingPreProcessors = true;
 			foreach($this->preprocessors as $i=>$o) {
+				if(!($o instanceof DOMElement)) {
+					continue;
+				}
 				$this->objects[$i]
 					= $this->preprocessors[$i]
 					= $this->parser->parseNode($o);
