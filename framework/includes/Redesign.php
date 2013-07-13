@@ -22,7 +22,8 @@ ini_set('error_reporting',E_ALL);
 ini_set('display_errors',true);
 ob_start();
 
-define('REDESIGN_ROOT',dirname(__FILE__).DIRECTORY_SEPARATOR.'..');
+define('IPMVC_ROOT',realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'));
+define('REDESIGN_ROOT',IPMVC_ROOT);
 define('CODE_ROOT',REDESIGN_ROOT.DIRECTORY_SEPARATOR.'includes');
 define('CONF_ROOT',REDESIGN_ROOT.DIRECTORY_SEPARATOR.'conf');
 define('CODE_EXTENSION','.php');
@@ -87,5 +88,12 @@ class IPMVC {
 		IPMVC::loadClass('IPMVC_Resource_File'); 
 		$ioc = IPMVC::getSiteMergedIoC('context.xml');
 		return $ioc;
+	}
+	static function log($msg) {
+		$backtrace = debug_backtrace();
+		$b = $backtrace[0];
+		$file = str_replace(CODE_ROOT,'',$b['file']);
+		$line = $b['line'];
+		error_log("$msg ($file:$line)");
 	}
 }

@@ -21,9 +21,9 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 	<object scope="singleton" id="default-constants-preprocessor" class="IPMVC_IoC_ParamValuePreProcessor_Constants">
 		<property name="constants" class="IPMVC_Model_Constants">
 			<constructor-arguments>
-				<param factory-ref="resource-selector" factory-method="getResource">
+				<param class="IPMVC_Resource_File">
 					<constructor-arguments>
-						<param value="site-root://conf/default-constants.ini"/>
+						<param interpret="eval" value="CONF_ROOT.'/default-constants.ini'"/>
 					</constructor-arguments>
 				</param>
 			</constructor-arguments>
@@ -33,9 +33,9 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 	<object scope="singleton" id='http-response' class='IPMVC_Response'/>
 	<object scope="singleton" id='http-request' class='IPMVC_Request'>
 		<constructor-arguments>
-			<param value="$_SERVER"/>
-			<param value="$_GET"/>
-			<param value="$_POST"/>
+			<param interpret="eval" value="$_SERVER"/>
+			<param interpret="eval" value="$_GET"/>
+			<param interpret="eval" value="$_POST"/>
 		</constructor-arguments>
 	</object>
 	<object id='http-router' scope="singleton" class='IPMVC_Router'>
@@ -86,6 +86,7 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 	<object id="portlet-page-portlet-prototype" class="IPMVC_PortletPage_Portlet"/>
 	
 	<object id="portlet-page-node-parser" scope="singleton" class="IPMVC_Model_NodeUnmarshaller_PortletPage">
+		<property name="ioCContainer" ref="this"/>
 		<property name="portletPagePrototype" value="portlet-page-prototype"/>
 	</object>
 	<object id="portlet-page-model" scope="singleton" class="IPMVC_Model_PortletPage">

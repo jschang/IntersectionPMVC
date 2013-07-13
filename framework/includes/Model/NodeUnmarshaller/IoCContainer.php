@@ -56,6 +56,8 @@ class IPMVC_Model_NodeUnmarshaller_IoCContainer implements IPMVC_Model_NodeUnmar
 	}
 	
 	/**
+	 * @param DOMNode $object The context xml object definition
+	 * @param Object $actualObject an existing object to merge the new object values onto
 	 * @return object
 	 */
 	public function parseObject(DOMNode $object,$actualObject=null) {
@@ -164,29 +166,35 @@ class IPMVC_Model_NodeUnmarshaller_IoCContainer implements IPMVC_Model_NodeUnmar
 			return $this->parseObject($param);
 		}
 			
+		// scalar value always trumps anything contained
 		$value = $param->getAttribute('value');
-		
 		if( !empty($value) ) {
+			$interpret = $param->getAttribute('interpret');
+			if(empty($interpret)) {
+				$interpret = 'scalar';
+			}
 			
-			$value = $this->IoC->preProcessValue($value);
-			
-			// condition so that super-globals may be context configured
-			if( $value{0} == '$' ) {
-				$value = substr($value,1);
-				return $GLOBALS[$value];	
-			} else return $value;
+			switch($interpret) {
+			case 'scalar':
+				$value = $this->IoC->preProcessValue($value);
+				return $value;
+			case 'eval':
+				eval('$value ='.$value.';');
+				return $value;
+			}
 		}
-			
+		
+		// process each element	
 		$xpath = new DOMXPath($param->ownerDocument);
 		$xpath->registerNamespace('ioc',$this->xmlNs);
 		$arrayElements = $xpath->query('./ioc:value',$param);
 		$callback = $param->getAttribute('callback');
 		if( !empty($arrayElements) ) {
-		   $ar = $this->parseArrayElement($arrayElements);
-		   if( empty($callback) ) {
-		      return $ar;
-	      } else {
-			   return call_user_func($ar);
+			$ar = $this->parseArrayElement($arrayElements);
+			if( empty($callback) ) {
+				return $ar;
+			} else {
+				return call_user_func($ar);
 			}
 		}		
 	}

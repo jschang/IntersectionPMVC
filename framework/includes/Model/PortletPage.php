@@ -52,6 +52,7 @@ class IPMVC_Model_PortletPage {
 		if( $res==null ) {
 			throw new Exception_NotFound($uri);
 		}
+IPMVC::log('found: '.$uri);
 		$xmlSource = $res->getContent();
 		$pageXml = new DOMDocument();
 		$pageXml->loadXml($xmlSource,LIBXML_NOBLANKS);
@@ -69,14 +70,16 @@ class IPMVC_Model_PortletPage {
 		$rootNode = $portletPageNodes->item(0);
 		
 		// see if this page definition is extending another
-		$basePageUri = $rootNode->getAttribute("base-page-uri");
 		$basePage = null;
+		$basePageUri = $rootNode->getAttribute('base-page-uri');
 		if( !empty($basePageUri) ) {
+IPMVC::log('processing base-page-uri: '.$basePageUri);
 			$basePage = $this->resourceSelector->getResource($basePageUri);
+IPMVC::log('base page object: '.is_object($basePage)?get_class($basePage):'null');
 		}
-		
 		$portlet = $nodeParser->parseNode($rootNode,null,null,$basePage);
 		
+IPMVC::log("portlet page resulting: ".(is_object($basePage)?get_class($basePage):'null'));
 		if( ! $portlet instanceof IPMVC_PortletPage ) {
 			throw new IPMVC_Exception_InvalidClass("IPMVC_PortletPage",$portlet);
 		}

@@ -25,12 +25,19 @@ IPMVC::loadClass('IPMVC_Model_NodeUnmarshaller');
 class IPMVC_Model_NodeUnmarshaller_PortletPage implements IPMVC_Model_NodeUnmarshaller {
 	private $xmlNs = 'urn:IPMVC_Model_NodeUnmarshaller_PortletPage';
 	private $ioc = null;
-	private $nodeClassMap = array(
+	private $nodePrototypeMap = array(
 			'portlet-page'=>'portlet-page-prototype',
 			'row'=>'portlet-page-row-prototype',
 			'cell'=>'portlet-page-cell-prototype',
 			'column'=>'portlet-page-column-prototype',
 			'portlet'=>'portlet-page-portlet-prototype'
+		);
+	private $nodeClassMap = array(
+			'portlet-page'=>'IPMVC_PortletPage_Generic',
+			'row'=>'IPMVC_PortletPage_Row',
+			'cell'=>'IPMVC_PortletPage_Cell',
+			'column'=>'IPMVC_PortletPage_Column',
+			'portlet'=>'IPMVC_PortletPage_Portlet'
 		);
 	private $portletPagePrototype = null;
 	
@@ -55,37 +62,48 @@ class IPMVC_Model_NodeUnmarshaller_PortletPage implements IPMVC_Model_NodeUnmars
 			IPMVC_PortletPage_Component $parentObject=null, 
 			IPMVC_PortletPage $basePage=null 
 		) {
+
+IPMVC::log($node->ownerDocument->saveXML($node));
+	
+		$iocParser = new IPMVC_Model_NodeUnmarshaller_IoCContainer();
+		if( !empty($this->ioc) ) {
+			$iocParser->setIoCContainer($this->ioc);
+		}
+		$iocParser->setNamespace($this->xmlNs);
 	
 		if( empty($nodeName) ) {
 			$nodeName = $node->nodeName;
 		}
 		
-		$nodeClassMap = $this->nodeClassMap;
+		$nodePrototypeMap =& $this->nodePrototypeMap;
 		$nodeId = null;
-		if( !empty($nodeClassMap[$nodeName]) ) {
+		if( !empty($nodePrototypeMap[$nodeName]) ) {
 			$ref = $node->getAttribute('ref');
 			if( !empty($ref) && !empty($this->ioc) ) {
-				return $this->iocParser->parseObject($node,$this->ioc->getObject($ref));
+IPMVC::log('returning parseObject');
+				$obj = $this->ioc->getObject($ref);
 			} else {
-				$ref = $nodeClassMap[$nodeName];
-				return $this->ioc->$ref;
+				
+				$backing = $node->getAttribute('backing');
+				if( !empty($backing) ) {
+					$node->setAttribute('class',$backing);
+				} else {
+					// get the prototype from the IoC
+					$ref = $nodePrototypeMap[$nodeName];
+					$obj = $this->ioc->getObject($ref);
+				}
+				
+				$nodeId = $node->getAttribute('id');
+				if( !empty($nodeId) ) {
+					$node->removeAttribute('id');
+				}
 			}
 		}
 		
-		if( $nodeName!='portlet-page' || $this->portletPagePrototype==null ) {
-			$iocParser = new IPMVC_Model_NodeUnmarshaller_IoCContainer();
-			if( !empty($this->ioc) ) {
-				$iocParser->setIoCContainer($this->ioc);
-			}
-			$iocParser->setNamespace($this->xmlNs);
-			$obj = $iocParser->parseNode($node,'property');
-		} else {
-			$obj = $this->ioc->getObject($this->pagePortletPrototype);
-		}
-		
-		if( !empty($nodeClassMap[$nodeName]) ) {
-		
-			if( ! is_a($obj, $nodeClassMap[$nodeName]) ) {
+		$obj = $iocParser->parseObject($node,$obj);
+		if( !empty($nodePrototypeMap[$nodeName]) ) {
+IPMVC::log("$nodeName found in \$nodePrototypeMap");
+			if( ! is_a($obj, $this->nodeClassMap[$nodeName]) ) {
 				throw new IPMVC_Exception_InvalidClass("PortletPage_Component",$obj);
 			}
 			
@@ -95,8 +113,8 @@ class IPMVC_Model_NodeUnmarshaller_PortletPage implements IPMVC_Model_NodeUnmars
 				if($childNode->nodeName=='portlet-page') {
 					throw new Exception("portlet-page may only be the root node");
 				}
-				
-				if( !empty($nodeClassMap[$childNode->nodeName]) ) {
+IPMVC::log('child node:'.$childNode->nodeName);				
+				if( !empty($nodePrototypeMap[$childNode->nodeName]) ) {
 				
 					$childObj = $this->parseNode($childNode,$childNode->nodeName,$obj,$basePage);
 					if( $childObj instanceof IPMVC_PortletPage_Cell ) {
@@ -142,7 +160,7 @@ class IPMVC_Model_NodeUnmarshaller_PortletPage implements IPMVC_Model_NodeUnmars
 		if( ! (empty($basePage) || empty($overrideId)) ) {
 			$basePage->replaceId($overrideId,$obj);
 		}
-		
+IPMVC::log("returning");		
 		return $obj;
 	}
 }
