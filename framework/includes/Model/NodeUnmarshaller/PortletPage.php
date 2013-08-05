@@ -75,6 +75,7 @@ IPMVC::log($node->ownerDocument->saveXML($node));
 			$nodeName = $node->nodeName;
 		}
 		
+		// construct the PortletPage-composite object
 		$nodePrototypeMap =& $this->nodePrototypeMap;
 		$nodeId = null;
 		if( !empty($nodePrototypeMap[$nodeName]) ) {
@@ -100,7 +101,11 @@ IPMVC::log('returning parseObject');
 			}
 		}
 		
+		// parse any additional options to be passed into the node's object 
 		$obj = $iocParser->parseObject($node,$obj);
+		
+		// look for children and recurse
+		// setup additional
 		if( !empty($nodePrototypeMap[$nodeName]) ) {
 IPMVC::log("$nodeName found in \$nodePrototypeMap");
 			if( ! is_a($obj, $this->nodeClassMap[$nodeName]) ) {
@@ -128,23 +133,27 @@ IPMVC::log('child node:'.$childNode->nodeName);
 				}
 			}
 			
-			$width = $node->getAttribute("width");
-			if( empty($width) && $obj instanceof IPMVC_PortletPage_Cell ) {
-				throw new IPMVC_Exception_Configuration("Width is a required configuration for a PortletPage_Cell");
-			}
-			if( !empty($width) ) {
-				if( !is_numeric($width) ) {
-					throw new IPMVC_Exception_InvalidType('Integer',$width);
-				}
-				$obj->setWidth(intval($width));
-			}
-			$uri = $node->getAttribute("portlet-uri");
+			// parse those attributes which are essential for a cell
 			if( $obj instanceof IPMVC_PortletPage_Cell ) {
-				if( empty($uri) ) {
-					throw new IPMVC_Exception_Configuration("portlet-uri is a required configuration attribute for a PortletPage_Cell");
-				}
-				$obj->setPortletUri($uri);
-				$obj->setIoC($this->ioc);
+                $width = $node->getAttribute("width");
+                if( empty($width) ) {
+                    throw new IPMVC_Exception_Configuration("Width is a required configuration for a PortletPage_Cell");
+                }
+                if( !empty($width) ) {
+                    if( !is_numeric($width) ) {
+                        throw new IPMVC_Exception_InvalidType('Integer',$width);
+                    }
+                    $obj->setWidth(intval($width));
+                }
+                
+                // if it is a page cell (visible block), then it may point to either a portlet.xml uri
+                // or a site-root:// or vcr://, for simple-content
+                $uri = $node->getAttribute("portlet-uri");
+                if( empty($uri) && !$obj->getPortlet() ) {
+                    throw new IPMVC_Exception_Configuration("portlet-uri is a required configuration attribute for a PortletPage_Cell");
+                }
+                $obj->setPortletUri($uri);
+                $obj->setIoC($this->ioc);
 			} 
 		}
 		
