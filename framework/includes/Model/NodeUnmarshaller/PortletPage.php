@@ -115,9 +115,34 @@ IPMVC::log("$nodeName found in \$nodePrototypeMap");
 			$childCount = $node->childNodes->length;
 			foreach( $node->childNodes as $idx=>$childNode ) {
 			
-				if($childNode->nodeName=='portlet-page') {
+			    // protect against bad structure
+			    if($childNode->nodeName=='portlet-page') {
 					throw new Exception("portlet-page may only be the root node");
 				}
+			    
+			    // parse the stylesheet nodes
+			    if($childNode->nodeName=='stylesheets'&&$childNode->childNodes->length) {
+			        
+			        $styleSheets = $obj->getStylesheets();
+			        if(!$styleSheets) {
+			            $styleSheets=array();
+			        }
+                    foreach($childNode->childNodes as $idx=>$styleSheetNode) {
+                        $newSs = new IPMVC_PortletPage_Link();
+                        foreach(array('rel'=>'setRel','href'=>'setUri','type'=>'setType','media-type'=>'setMediaType')
+                                as $attr=>$setter) {
+                            $value = $styleSheetNode->getAttribute($attr);
+                            if(!empty($value)) {
+                                $newSs->$setter($value);
+                            }
+                        }
+                        $styleSheets[]=$newSs;
+                    }
+			        $obj->setStylesheets($styleSheets);
+			        // nothing more to be done at this level
+			        continue;
+			    }
+				
 IPMVC::log('child node:'.$childNode->nodeName);				
 				if( !empty($nodePrototypeMap[$childNode->nodeName]) ) {
 				
