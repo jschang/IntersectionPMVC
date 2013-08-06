@@ -20,10 +20,10 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 
 IPMVC::loadClass('IPMVC_View');
 
-define('GRID_CLASS_CELL_START','st');
-define('GRID_CLASS_CELL_END','nd');
-define('GRID_CLASS_ROW','row');
-define('GRID_CLASS_COLUMN','col');
+define('GRID_CLASS_CELL_START','ipmvc_st');
+define('GRID_CLASS_CELL_END','ipmvc_nd');
+define('GRID_CLASS_ROW','ipmvc_row');
+define('GRID_CLASS_COLUMN','ipmvc_col');
 
 class IPMVC_PortletPage_Component implements IPMVC_View {
 

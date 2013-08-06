@@ -17,35 +17,35 @@ You should have received a copy of the GNU Lesser General Public License
 along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-.grid       { width: 972px; overflow:hidden; }
+.ipmvc_grid       { width: 960px; overflow:hidden; }
 
-.cell-1     { width: 50px; }
-.cell-2     { width: 110px; }
-.cell-3     { width: 170px; }
-.cell-4     { width: 230px; }
-.cell-5     { width: 290px; }
-.cell-6     { width: 350px; }
-.cell-7     { width: 410px; }
-.cell-8     { width: 470px; }
-.cell-9     { width: 530px; }
-.cell-10    { width: 590px; }
-.cell-11    { width: 650px; }
-.cell-12    { width: 710px; }
-.cell-13    { width: 770px; }
-.cell-14    { width: 830px; }
-.cell-15    { width: 890px; }
-.cell-16    { width: 950px; }
+.ipmvc_cell_1     { width: 50px; }
+.ipmvc_cell_2     { width: 110px; }
+.ipmvc_cell_3     { width: 170px; }
+.ipmvc_cell_4     { width: 230px; }
+.ipmvc_cell_5     { width: 290px; }
+.ipmvc_cell_6     { width: 350px; }
+.ipmvc_cell_7     { width: 410px; }
+.ipmvc_cell_8     { width: 470px; }
+.ipmvc_cell_9     { width: 530px; }
+.ipmvc_cell_10    { width: 590px; }
+.ipmvc_cell_11    { width: 650px; }
+.ipmvc_cell_12    { width: 710px; }
+.ipmvc_cell_13    { width: 770px; }
+.ipmvc_cell_14    { width: 830px; }
+.ipmvc_cell_15    { width: 890px; }
+.ipmvc_cell_16    { width: 950px; }
 
-.st         { margin-left:0; }
-.nd         { margin-right:0; }
+.ipmvc_st         { margin-left:0; }
+.ipmvc_nd         { margin-right:0; }
 
-div.col       { float:left; }
-div.col > div { clear:both; }
-div.row       { clear:both; }
-div.row > div { float:left; }
+div.ipmvc_col       { float:left; }
+div.ipmvc_col > div { clear:both; }
+div.ipmvc_row       { clear:both; }
+div.ipmvc_row > div { float:left; }
 
-div.cell-1, div.cell-2, div.cell-3, div.cell-4,
-div.cell-5, div.cell-6, div.cell-7, div.cell-8, 
-div.cell-9, div.cell-10, div.cell-11, div.cell-12,
-div.cell-13, div.cell-14, div.cell-15, div.cell-16
-{ border: 1px solid black; margin: 5 5 5 5; float:left; }
+div.ipmvc_cell_1, div.ipmvc_cell_2, div.ipmvc_cell_3, div.ipmvc_cell_4,
+div.ipmvc_cell_5, div.ipmvc_cell_6, div.ipmvc_cell_7, div.ipmvc_cell_8, 
+div.ipmvc_cell_9, div.ipmvc_cell_10, div.ipmvc_cell_11, div.ipmvc_cell_12,
+div.ipmvc_cell_13, div.ipmvc_cell_14, div.ipmvc_cell_15, div.ipmvc_cell_16
+{ border: none; margin: 5 5 5 5; float:left; }

@@ -47,7 +47,7 @@ class IPMVC_PortletPage_Generic extends IPMVC_PortletPage_Component implements I
 		}
 		$response->write("</head>");
 		$response->write("<body>");
-		$response->write("<div class=\"grid\">");
+		$response->write("<div class=\"ipmvc_grid\">");
 		$children = $this->getChildren();
 		foreach( $children as $child ) {
 			$child->renderChild($request,$response);

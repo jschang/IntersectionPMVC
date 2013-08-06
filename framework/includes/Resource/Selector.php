@@ -42,4 +42,16 @@ class IPMVC_Resource_Selector {
 		}
 		return null;
 	}
+	public function getReturnClasses($uri) {
+	    $ret = array();
+		preg_match('/([^:]*):\/\/(.*)/',$uri,$match);
+		if( empty($this->protocolHandlers[$match[1]]) )
+			throw new IPMVC_Exception_Unsupported(__CLASS__,$match[1]);
+		else {
+			foreach( $this->protocolHandlers[$match[1]] as $handler ) {
+				$ret[$handler->getReturnClass($uri)]=true;
+			}
+		}
+		return array_keys($ret);
+	}
 }

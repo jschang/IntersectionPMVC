@@ -75,6 +75,9 @@ IPMVC::log($node->ownerDocument->saveXML($node));
 			$nodeName = $node->nodeName;
 		}
 		
+		// in-case the dev wanted additional css classes on this element
+		$cssClasses = $node->getAttribute('class');
+		
 		// construct the PortletPage-composite object
 		$nodePrototypeMap =& $this->nodePrototypeMap;
 		$nodeId = null;
@@ -107,7 +110,9 @@ IPMVC::log('returning parseObject');
 		// look for children and recurse
 		// setup additional
 		if( !empty($nodePrototypeMap[$nodeName]) ) {
+		    
 IPMVC::log("$nodeName found in \$nodePrototypeMap");
+
 			if( ! is_a($obj, $this->nodeClassMap[$nodeName]) ) {
 				throw new IPMVC_Exception_InvalidClass("PortletPage_Component",$obj);
 			}
@@ -143,7 +148,9 @@ IPMVC::log("$nodeName found in \$nodePrototypeMap");
 			        continue;
 			    }
 				
-IPMVC::log('child node:'.$childNode->nodeName);				
+IPMVC::log('child node:'.$childNode->nodeName);	
+
+                // tack on end and start classes for the beginning and end of a row
 				if( !empty($nodePrototypeMap[$childNode->nodeName]) ) {
 				
 					$childObj = $this->parseNode($childNode,$childNode->nodeName,$obj,$basePage);
@@ -158,12 +165,18 @@ IPMVC::log('child node:'.$childNode->nodeName);
 				}
 			}
 			
+			if(!empty($cssClasses)) {
+			    foreach(explode(' ',$cssClasses) as $class) {
+			        $obj->addClass($class);
+			    }
+			}
+			
 			// parse those attributes which are essential for a cell
 			if( $obj instanceof IPMVC_PortletPage_Cell ) {
                 $width = $node->getAttribute("width");
-                if( empty($width) ) {
-                    throw new IPMVC_Exception_Configuration("Width is a required configuration for a PortletPage_Cell");
-                }
+                //if( empty($width) ) {
+                //    throw new IPMVC_Exception_Configuration("Width is a required configuration for a PortletPage_Cell");
+                //}
                 if( !empty($width) ) {
                     if( !is_numeric($width) ) {
                         throw new IPMVC_Exception_InvalidType('Integer',$width);
@@ -177,8 +190,20 @@ IPMVC::log('child node:'.$childNode->nodeName);
                 if( empty($uri) && !$obj->getPortlet() ) {
                     throw new IPMVC_Exception_Configuration("portlet-uri is a required configuration attribute for a PortletPage_Cell");
                 }
-                $obj->setPortletUri($uri);
-                $obj->setIoC($this->ioc);
+                if(!$obj->getPortlet()) {
+                    $uriClasses = $this->ioc->getObject('resource-selector')->getReturnClasses($uri);
+                    if(($classes = array_intersect(array('IPMVC_Resource_Content','IPMVC_Resource_File'),$uriClasses))
+                            && !empty($classes)) {
+                        $portlet = new IPMVC_Portlet_TemplatedContent();
+                        $portlet->setResourceUri($uri);
+                        $portlet->setResourceSelector($this->ioc->getObject('resource-selector'));
+                        $obj->setPortlet($portlet);
+                    } 
+                    else {
+                        $obj->setPortletUri($uri);
+                        $obj->setIoC($this->ioc);
+                    }
+                }
 			} 
 		}
 		

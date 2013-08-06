@@ -51,4 +51,7 @@ class IPMVC_Resource_Selector_PortletPage implements IPMVC_Resource_Selector_Int
 		}
 		return null;
 	}
+	public function getReturnClass() {
+	    return 'IPMVC_PortletPage';
+	}
 }

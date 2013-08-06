@@ -44,7 +44,7 @@ class IPMVC_PortletPage_Cell extends IPMVC_PortletPage_Component {
 	}
 	
 	public function renderChild(IPMVC_Portlet_Request $request, IPMVC_Response $response) {
-		$response->write("<div class=\"cell-".$this->getWidth()." ".$this->renderClasses()."\">\n");
+		$response->write("<div class=\"ipmvc_cell ipmvc_cell_".$this->getWidth()." ".$this->renderClasses()."\">\n");
 		$portletResponse = new IPMVC_Portlet_Response();
 		$this->portlet->render($request,$portletResponse);
 		$response->write($portletResponse->getContent());

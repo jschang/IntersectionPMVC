@@ -54,4 +54,7 @@ class IPMVC_Resource_Selector_Portlet implements IPMVC_Resource_Selector_Interfa
 		}
 		return null;
 	}
+	public function getReturnClass() {
+	    return 'IPMVC_Portlet';
+	}
 }

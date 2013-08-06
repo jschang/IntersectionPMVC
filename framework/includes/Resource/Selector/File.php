@@ -45,4 +45,7 @@ class IPMVC_Resource_Selector_File implements IPMVC_Resource_Selector_Interface 
 		}
 		return $resource;
 	}
+	public function getReturnClass() {
+	    return 'IPMVC_Resource_File';
+	}
 }
