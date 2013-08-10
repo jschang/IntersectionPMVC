@@ -34,14 +34,23 @@ class IPMVC_PortletPage_Generic extends IPMVC_PortletPage_Component implements I
 	}
 	
 	public function setStylesheets($styleSheets) {
-		$this->styleSheets=$styleSheets;
+	    $newStylesheets = array();
+	    foreach($styleSheets as $link) {
+	        $newStylesheets[''.$link]=$link;
+	    }
+		$this->styleSheets=$newStylesheets;
 	}
 	public function getStylesheets() {
 		return $this->styleSheets;
 	}
+	public function addStylesheet(IPMVC_PortletPage_Link $link) {
+	    $this->styleSheets[''.$link]=$link;
+	}
 	
 	public function renderChild(IPMVC_Portlet_Request $request, IPMVC_Response $response) {
 		$response->write("<html><head>");
+		$requestUriParts = explode('?',$_SERVER['REQUEST_URI']);
+		$response->write('<base href="/" target="_blank">');
 		foreach( $this->styleSheets as $styleSheet ) {
 			$styleSheet->renderChild($request,$response);
 		}

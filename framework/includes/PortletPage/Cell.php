@@ -44,10 +44,13 @@ class IPMVC_PortletPage_Cell extends IPMVC_PortletPage_Component {
 	}
 	
 	public function renderChild(IPMVC_Portlet_Request $request, IPMVC_Response $response) {
-		$response->write("<div class=\"ipmvc_cell ipmvc_cell_".$this->getWidth()." ".$this->renderClasses()."\">\n");
+		$response->write("<div "
+		    .($this->getId()?"id=\"".$this->getId()."\"":"")." "
+		    ."class=\"ipmvc_cell ipmvc_cell_".$this->getWidth()." ".$this->renderClasses()."\">"
+		    ."<div class=\"ipmvc_cell_inner\">\n");
 		$portletResponse = new IPMVC_Portlet_Response();
 		$this->portlet->render($request,$portletResponse);
 		$response->write($portletResponse->getContent());
-		$response->write("</div>\n");
+		$response->write("</div></div>\n");
 	}
 }

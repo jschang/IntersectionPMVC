@@ -79,11 +79,30 @@ IPMVC::log('base page object: '.is_object($basePage)?get_class($basePage):'null'
 		}
 		$portlet = $nodeParser->parseNode($rootNode,null,null,$basePage);
 		
+		// merge select attributes of the portlet onto the basePage
+		// ultimately, the basePage is what we're building and will be
+		// passed back...the more top layers are only for overrides.
+		$this->merge($basePage,$portlet);
+		
+IPMVC::log("stylesheets count: ".count($portlet->getStylesheets()));		
 IPMVC::log("portlet page resulting: ".(is_object($basePage)?get_class($basePage):'null'));
 		if( ! $portlet instanceof IPMVC_PortletPage ) {
 			throw new IPMVC_Exception_InvalidClass("IPMVC_PortletPage",$portlet);
 		}
-		
+
 		return !empty($basePage)?$basePage:$portlet;
+	}
+	
+	/**
+	 * Merge select elements from the portletPage onto the basePage
+	 */
+	private function merge($basePage,$portletPage) {
+	    if(empty($basePage)) {
+	        return;
+	    }
+	    foreach($portletPage->getStylesheets() as $link) {
+IPMVC::log("adding stylesheet: ".$link);
+	        $basePage->addStylesheet($link);
+	    }
 	}
 }

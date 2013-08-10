@@ -89,11 +89,19 @@ class IPMVC {
 		$ioc = IPMVC::getSiteMergedIoC('context.xml');
 		return $ioc;
 	}
+	
+	/* SIMPLE LOGGING STUFF */
+	static $loggingPatterns = array(
+	    //':(.*)PortletPage(.*):'
+	    );
 	static function log($msg) {
 		$backtrace = debug_backtrace();
 		$b = $backtrace[0];
 		$file = str_replace(CODE_ROOT,'',$b['file']);
 		$line = $b['line'];
-		error_log("$msg ($file:$line)");
+		foreach(self::$loggingPatterns as $pattern) {
+		    if(preg_match($pattern,$backtrace[1]['class']))
+		        error_log("$msg ($file:$line)");
+		}
 	}
 }

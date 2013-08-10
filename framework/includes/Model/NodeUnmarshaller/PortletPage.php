@@ -63,7 +63,7 @@ class IPMVC_Model_NodeUnmarshaller_PortletPage implements IPMVC_Model_NodeUnmars
 			IPMVC_PortletPage $basePage=null 
 		) {
 
-IPMVC::log($node->ownerDocument->saveXML($node));
+//IPMVC::log($node->ownerDocument->saveXML($node));
 	
 		$iocParser = new IPMVC_Model_NodeUnmarshaller_IoCContainer();
 		if( !empty($this->ioc) ) {
@@ -84,7 +84,7 @@ IPMVC::log($node->ownerDocument->saveXML($node));
 		if( !empty($nodePrototypeMap[$nodeName]) ) {
 			$ref = $node->getAttribute('ref');
 			if( !empty($ref) && !empty($this->ioc) ) {
-IPMVC::log('returning parseObject');
+//IPMVC::log('returning parseObject');
 				$obj = $this->ioc->getObject($ref);
 			} else {
 				
@@ -101,6 +101,7 @@ IPMVC::log('returning parseObject');
 				if( !empty($nodeId) ) {
 					$node->removeAttribute('id');
 				}
+				$obj->setId($nodeId);
 			}
 		}
 		
@@ -111,7 +112,7 @@ IPMVC::log('returning parseObject');
 		// setup additional
 		if( !empty($nodePrototypeMap[$nodeName]) ) {
 		    
-IPMVC::log("$nodeName found in \$nodePrototypeMap");
+//IPMVC::log("$nodeName found in \$nodePrototypeMap");
 
 			if( ! is_a($obj, $this->nodeClassMap[$nodeName]) ) {
 				throw new IPMVC_Exception_InvalidClass("PortletPage_Component",$obj);
@@ -137,18 +138,20 @@ IPMVC::log("$nodeName found in \$nodePrototypeMap");
                         foreach(array('rel'=>'setRel','href'=>'setUri','type'=>'setType','media-type'=>'setMediaType')
                                 as $attr=>$setter) {
                             $value = $styleSheetNode->getAttribute($attr);
+if($attr=='href') {
+    IPMVC::log("found stylesheet: ".$value);
+}
                             if(!empty($value)) {
                                 $newSs->$setter($value);
                             }
                         }
-                        $styleSheets[]=$newSs;
+                        $obj->addStylesheet($newSs);
                     }
-			        $obj->setStylesheets($styleSheets);
 			        // nothing more to be done at this level
 			        continue;
 			    }
 				
-IPMVC::log('child node:'.$childNode->nodeName);	
+//IPMVC::log('child node:'.$childNode->nodeName);	
 
                 // tack on end and start classes for the beginning and end of a row
 				if( !empty($nodePrototypeMap[$childNode->nodeName]) ) {
@@ -216,10 +219,17 @@ IPMVC::log('child node:'.$childNode->nodeName);
 		}
 		
 		$overrideId = $node->getAttribute("override-id");
-		if( ! (empty($basePage) || empty($overrideId)) ) {
-			$basePage->replaceId($overrideId,$obj);
+		if( !empty($basePage) ) {
+		    if(!empty($overrideId)) {
+		        $replacing = $basePage->findId($overrideId);
+		        if($replacing && $replacing['node'] instanceof IPMVC_PortletPage_Cell) {
+		            $obj->setWidth($replacing['node']->getWidth());
+		            $obj->setId($overrideId);
+		        }		        
+			    $basePage->replaceId($overrideId,$obj);
+			}
 		}
-IPMVC::log("returning");		
+//IPMVC::log("returning");		
 		return $obj;
 	}
 }
