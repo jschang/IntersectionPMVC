@@ -8,6 +8,17 @@ class IPMVC_Portlet_TemplatedContent extends IPMVC_AbstractPortlet {
     public function process(IPMVC_Portlet_Request $request) {
     }
     public function render(IPMVC_Portlet_Request $request, IPMVC_Portlet_Response $response) {
-        $response->setContent($this->resourceSelector->getResource($this->getURI())->getContent());
+        ob_start();
+        $this->includeFile($this->getURI());
+        $content = ob_get_contents();
+        ob_end_clean();
+        $response->setContent($content);
+    }
+    public function includeFile($resourceUri) {
+        $content = $this
+            ->resourceSelector
+            ->getResource($resourceUri)
+                ->getContent();
+        eval('?>'.$content.'<?');
     }
 }
