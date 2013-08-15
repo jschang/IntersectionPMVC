@@ -20,5 +20,4 @@ along with IntersectionPMVC.  If not, see <http://www.gnu.org/licenses/>.
 
 interface IPMVC_Resource {
 	function getURI();
-	function setURI($uri);
 }

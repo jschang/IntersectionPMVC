@@ -35,8 +35,12 @@ class IPMVC_Resource_File implements IPMVC_Resource_Content {
 		return file_get_contents($this->fullPath);
 	}
 	public function setContent($content) {
+	    throw new IPMVC_Exception_Unsupported("Set content is not currently supported");
 	}
 	public function getLastModified() {
 	    return filemtime($this->fullPath);
+	}
+	public function getCreatedTime() {
+	    return filectime($this->fullPath);
 	}
 }

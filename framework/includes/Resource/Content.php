@@ -24,4 +24,5 @@ interface IPMVC_Resource_Content extends IPMVC_Resource {
 	public function getContent();
 	public function setContent($content);
 	public function getLastModified();
+	public function getCreatedTime();
 }
