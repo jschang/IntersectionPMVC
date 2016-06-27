@@ -50,7 +50,7 @@ class IPMVC_Model_PortletPage {
 	
 		$res = $this->resourceSelector->getResource($uri);
 		if( $res==null ) {
-			throw new Exception_NotFound($uri);
+			throw new IPMVC_Exception_NotFound($uri);
 		}
 IPMVC::log('found: '.$uri);
 		$xmlSource = $res->getContent();

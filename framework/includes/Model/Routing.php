@@ -74,7 +74,7 @@ class IPMVC_Model_Routing {
 		
 		$routing = $xpath->query($routingXpath);
 		if( $routing->length==0 ) {
-			throw new Exception_NotFound($this->xmlSource->getURI().$routingXpath);
+			throw new IPMVC_Exception_NotFound($this->xmlSource->getURI().$routingXpath);
 		}
 		$this->parseIocContainer( $routing->item(0)->getAttribute('ioc-container') );
 		$this->routerParseresourceSelector( $routing->item(0)->getAttribute('resource-selector') );
