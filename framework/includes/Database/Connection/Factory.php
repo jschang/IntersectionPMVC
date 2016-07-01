@@ -10,12 +10,6 @@ class IPMVC_Database_Connection_Factory {
         $this->constantsPrefix = $constantsPrefix;
     }
     public function newConnection($type=null) {
-        /*print_r(array($this->constantsPrefix.($type!=null?'.'.$type:'').'.connectionString',
-            $this->constantsPrefix.($type!=null?'.'.$type:'').'.username',
-            $this->constantsPrefix.($type!=null?'.'.$type:'').'.password'));
-        print_r(array($this->constants->get($this->constantsPrefix.($type!=null?'.'.$type:'').'.connectionString'),
-            $this->constants->get($this->constantsPrefix.($type!=null?'.'.$type:'').'.username'),
-            $this->constants->get($this->constantsPrefix.($type!=null?'.'.$type:'').'.password')));*/
         return new PDO(
             $this->constants->get($this->constantsPrefix.($type!=null?'.'.$type:'').'.connectionString'),
             $this->constants->get($this->constantsPrefix.($type!=null?'.'.$type:'').'.username'),

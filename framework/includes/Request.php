@@ -40,6 +40,9 @@ class IPMVC_Request {
 	public function getAcceptLanguage() {
 	    return @$this->serverVars['HTTP_ACCEPT_LANGUAGE'];
 	}
+	public function getPostParams() {
+	    return $this->postParams;
+	}
 	public function __isset($var) {
 	    if(isset($this->urlParams[$var])) {
 	        return true;
