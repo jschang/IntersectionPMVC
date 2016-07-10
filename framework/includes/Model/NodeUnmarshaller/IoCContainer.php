@@ -88,7 +88,7 @@ class IPMVC_Model_NodeUnmarshaller_IoCContainer implements IPMVC_Model_NodeUnmar
 			} else {
 				$className = trim($className);
 				if(empty($className)) {
-					throw new Exception();
+					throw new Exception("Class name is empty for IoC object: ".print_r($object,true));
 				}
 			
 				if( !class_exists($className) ) {
